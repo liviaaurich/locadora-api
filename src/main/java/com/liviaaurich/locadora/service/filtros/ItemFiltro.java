@@ -1,7 +1,7 @@
 package com.liviaaurich.locadora.service.filtros;
 
 import com.liviaaurich.locadora.domain.Ator_;
-import com.liviaaurich.locadora.domain.Diretor_;
+import com.liviaaurich.locadora.domain.Item_;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
@@ -11,10 +11,12 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiretorFiltro implements EntityFilter {
+public class ItemFiltro implements EntityFilter {
 
     private Long id;
-    private String nome;
+    private String tipo;
+    private String dataAquisicao;
+    private String titulo;
 
     /**
      * {@inheritDoc}
@@ -32,12 +34,20 @@ public class DiretorFiltro implements EntityFilter {
      */
     private List<Predicate> getPredicates(Root root, CriteriaBuilder cb) {
         final List<Predicate> predicates = new ArrayList<>();
-        if (!StringUtils.isEmpty(nome)) {
-            Predicate predicate = cb.like(cb.lower(root.get(Diretor_.nome)), "%" + nome.toLowerCase() + "%");
+        if (!StringUtils.isEmpty(id)) {
+            Predicate predicate = cb.equal(root.get(Item_.id), id);
             predicates.add(predicate);
         }
-        if (!StringUtils.isEmpty(id)) {
-            Predicate predicate = cb.equal(root.get(Diretor_.id), id);
+        if (!StringUtils.isEmpty(tipo)) {
+            Predicate predicate = cb.like(cb.lower(root.get(Item_.tipoItem)), "%" + tipo.toLowerCase() + "%");
+            predicates.add(predicate);
+        }
+        if (!StringUtils.isEmpty(dataAquisicao)) {
+            Predicate predicate = cb.like(cb.lower(root.get(Item_.dataAquisicao)), "%" + dataAquisicao.toLowerCase() + "%");
+            predicates.add(predicate);
+        }
+        if (!StringUtils.isEmpty(titulo)) {
+            Predicate predicate = cb.like(cb.lower(root.get(Item_.titulo)), "%" + titulo.toLowerCase() + "%");
             predicates.add(predicate);
         }
         return predicates;

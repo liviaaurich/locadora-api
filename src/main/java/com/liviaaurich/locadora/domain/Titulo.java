@@ -7,13 +7,19 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -32,11 +38,29 @@ public class Titulo implements Serializable {
     @Column(name = "NOME")
     private String nome;
 
-    @Column(name = "VALOR")
-    private Double valor;
+    @Column(name = "ANO")
+    private String ano;
 
-    @Column(name = "PRAZO_DEVOLUCAO")
-    private LocalDateTime prazoDevolucao;
+    @Column(name = "SINOPSE")
+    private String sinopse;
+
+    @JoinColumn(name = "ID_DIRETOR", referencedColumnName = "ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Diretor diretor;
+
+    @JoinColumn(name = "ID_CATEGORIA", referencedColumnName = "ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Categoria categoria;
+
+    @JoinColumn(name = "ID_CLASSE", referencedColumnName = "ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Classe classe;
+
+    @ManyToMany
+    @JoinTable(name = "REL_ATOR_TITULO",
+        joinColumns = @JoinColumn(name = "ID_TITULO", referencedColumnName = "ID"),
+        inverseJoinColumns= @JoinColumn(name = "ID_ATOR", referencedColumnName = "ID"))
+    private List<Ator> listaAtores = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

@@ -1,40 +1,42 @@
-package com.liviaaurich.locadora.service.dto;
+package com.liviaaurich.locadora.domain;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
 @Getter
 @Setter
-public class ClasseDTO implements Serializable {
+@Table(name = "TB_CATEGORIA")
+public class Categoria {
+
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @Column(name = "ID")
     private Long id;
-    private String nome;
-    private Double valor;
-    private LocalDateTime prazoDevolucao;
 
-    /**
-     * {@inheritDoc}
-     */
+    @Column(name = "DESCRICAO")
+    private String descricao;
+
     @Override
     public boolean equals(Object o) {
-        return (o instanceof AtorDTO) && new EqualsBuilder()
-            .append(getId(), ((AtorDTO) o).getId())
+        return (o instanceof Categoria) && new EqualsBuilder()
+            .append(getId(), ((Categoria) o).getId())
             .isEquals();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int hashCode() {
         return new HashCodeBuilder()
             .append(getId())
             .toHashCode();
     }
+
 }

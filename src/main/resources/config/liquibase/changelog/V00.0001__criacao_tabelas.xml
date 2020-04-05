@@ -9,7 +9,7 @@
         <property name="autoIncrement" value="true"/>
 
         <property name="now" value="now()" dbms="h2"/>
-        <property name="now" value="sysdate" dbms="oracle"/>
+        <property name="now" value="sysdate" dbms="postgree"/>
 
         <changeSet id="00000000000003" author="livia.aurich">
             <createSequence cacheSize="20" cycle="false" incrementBy="1" sequenceName="SEQ_ATOR" startValue="1"/>
@@ -28,6 +28,7 @@
                     <constraints nullable="false"/>
                 </column>
             </createTable>
+            <addPrimaryKey tableName="TB_ATOR" constraintName="ATOR_PK" columnNames="ID"/>
 
             <createTable remarks="Tabelas onde serão armazenados os diretores." tableName="TB_DIRETOR">
                 <column name="ID" remarks="Codigo identificador de cada diretor." type="NUMBER(4)">
@@ -37,6 +38,7 @@
                     <constraints nullable="false"/>
                 </column>
             </createTable>
+            <addPrimaryKey tableName="TB_DIRETOR" constraintName="DIRETOR_PK" columnNames="ID"/>
 
             <createTable remarks="Tabelas onde serão armazenadas as classes." tableName="TB_CLASSE">
                 <column name="ID" remarks="Codigo identificador de cada classe." type="NUMBER(4)">
@@ -52,5 +54,110 @@
                     <constraints nullable="false"/>
                 </column>
             </createTable>
+            <addPrimaryKey tableName="TB_CLASSE" constraintName="CLASSE_PK" columnNames="ID"/>
+        </changeSet>
+
+        <changeSet id="00000000000005" author="livia.aurich">
+            <createTable remarks="Tabelas onde serão armazenadas as categorias." tableName="TB_CATEGORIA">
+                <column name="ID" remarks="Codigo identificador de cada categoria." type="NUMBER(4)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="DESCRICAO" remarks="Descrição da categoria." type="VARCHAR2(76)">
+                    <constraints nullable="false"/>
+                </column>
+            </createTable>
+            <addPrimaryKey tableName="TB_CATEGORIA" constraintName="CATEGORIA_PK" columnNames="ID"/>
+            <sql>
+                INSERT INTO TB_CATEGORIA (ID, DESCRICAO) VALUES (1, 'Ação');
+                INSERT INTO TB_CATEGORIA (ID, DESCRICAO) VALUES (2, 'Animação');
+                INSERT INTO TB_CATEGORIA (ID, DESCRICAO) VALUES (3, 'Aventura');
+                INSERT INTO TB_CATEGORIA (ID, DESCRICAO) VALUES (4, 'Comédia');
+                INSERT INTO TB_CATEGORIA (ID, DESCRICAO) VALUES (5, 'Documentário');
+                INSERT INTO TB_CATEGORIA (ID, DESCRICAO) VALUES (6, 'Drama');
+                INSERT INTO TB_CATEGORIA (ID, DESCRICAO) VALUES (7, 'Ficção científica');
+                INSERT INTO TB_CATEGORIA (ID, DESCRICAO) VALUES (8, 'Romance');
+                INSERT INTO TB_CATEGORIA (ID, DESCRICAO) VALUES (9, 'Suspense');
+                INSERT INTO TB_CATEGORIA (ID, DESCRICAO) VALUES (10, 'Terror');
+            </sql>
+        </changeSet>
+
+        <changeSet id="00000000000006" author="livia.aurich">
+            <createTable remarks="Tabelas onde serão armazenados os títulos." tableName="TB_TITULO">
+                <column name="ID" remarks="Codigo identificador de cada titulo." type="NUMBER(4)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="NOME" remarks="Nome do titulo." type="VARCHAR2(76)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="ANO" remarks="Ano do titulo." type="VARCHAR2(76)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="SINOPSE" remarks="Sinopse do titulo." type="VARCHAR2(76)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="ID_DIRETOR" remarks="Diretor do titulo." type="NUMBER(4)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="ID_CATEGORIA" remarks="Categoria do titulo." type="NUMBER(4)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="ID_CLASSE" remarks="Classe do titulo." type="NUMBER(4)">
+                    <constraints nullable="false"/>
+                </column>
+            </createTable>
+            <addPrimaryKey tableName="TB_TITULO" constraintName="TITULO_PK" columnNames="ID"/>
+
+            <addForeignKeyConstraint baseTableName="TB_TITULO" constraintName="FK_TITULO_DIRETOR"
+                                     baseColumnNames="ID_DIRETOR" referencedTableName="TB_DIRETOR"
+                                     referencedColumnNames="ID" onDelete="RESTRICT" onUpdate="CASCADE"/>
+            <addForeignKeyConstraint baseTableName="TB_TITULO" constraintName="FK_TITULO_CATEGORIA"
+                                     baseColumnNames="ID_CATEGORIA" referencedTableName="TB_CATEGORIA"
+                                     referencedColumnNames="ID" onDelete="RESTRICT" onUpdate="CASCADE"/>
+            <addForeignKeyConstraint baseTableName="TB_TITULO" constraintName="FK_TITULO_CLASSE"
+                                     baseColumnNames="ID_CLASSE" referencedTableName="TB_CLASSE"
+                                     referencedColumnNames="ID" onDelete="RESTRICT" onUpdate="CASCADE"/>
+
+            <createTable remarks="Manter o relacionamento de um titulo e um ator." tableName="REL_ATOR_TITULO">
+                <column name="ID_TITULO" remarks="Chave composta para vincular o titulo." type="NUMBER(4)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="ID_ATOR" remarks="Chave composta para vincular os atores." type="NUMBER(4)">
+                    <constraints nullable="false"/>
+                </column>
+            </createTable>
+            <addPrimaryKey tableName="REL_ATOR_TITULO" constraintName="IDX_REL_ATOR_TITULO" columnNames="ID_TITULO, ID_ATOR"/>
+
+            <addForeignKeyConstraint baseTableName="REL_ATOR_TITULO" constraintName="FK_REL_TITULO"
+                                     baseColumnNames="ID_TITULO" referencedTableName="TB_TITULO"
+                                     referencedColumnNames="ID" onDelete="RESTRICT" onUpdate="CASCADE"/>
+            <addForeignKeyConstraint baseTableName="REL_ATOR_TITULO" constraintName="FK_REL_ATOR"
+                                     baseColumnNames="ID_ATOR" referencedTableName="TB_ATOR"
+                                     referencedColumnNames="ID" onDelete="RESTRICT" onUpdate="CASCADE"/>
+        </changeSet>
+
+
+        <changeSet id="00000000000007" author="livia.aurich">
+            <createTable remarks="Tabelas onde serão armazenadas os itens." tableName="TB_ITEM">
+                <column name="ID" remarks="Codigo identificador de cada item." type="NUMBER(4)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="ITEM" remarks="Tipo do item." type="VARCHAR2(10)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="VALOR" remarks="Valor da classe." type="DECIMAL(5, 2)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="DATA_AQUISICAO" remarks="Data de aquisição do item." type="DATE">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="ID_TITULO" remarks="Titulo do item." type="NUMBER(4)">
+                    <constraints nullable="false"/>
+                </column>
+            </createTable>
+            <addPrimaryKey tableName="TB_ITEM" constraintName="ITEM_PK" columnNames="ID"/>
+
+            <addForeignKeyConstraint baseTableName="TB_ITEM" constraintName="FK_ITEM_TITULO"
+                                     baseColumnNames="ID_TITULO" referencedTableName="TB_TITULO"
+                                     referencedColumnNames="ID" onDelete="RESTRICT" onUpdate="CASCADE"/>
         </changeSet>
 </databaseChangeLog>

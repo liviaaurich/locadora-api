@@ -11,20 +11,20 @@
         <property name="now" value="now()" dbms="h2"/>
         <property name="now" value="sysdate" dbms="oracle"/>
 
-        <changeSet id="1" author="livia.aurich">
-            <createSequence cacheSize="20" cycle="false" incrementBy="1" ordered="false" sequenceName="SEQ_ATOR" startValue="1"/>
-            <createSequence cacheSize="20" cycle="false" incrementBy="1" ordered="false" sequenceName="SEQ_CLASSE" startValue="1"/>
-            <createSequence cacheSize="20" cycle="false" incrementBy="1" ordered="false" sequenceName="SEQ_DIRETOR" startValue="1"/>
-            <createSequence cacheSize="20" cycle="false" incrementBy="1" ordered="false" sequenceName="SEQ_ITEM" startValue="1"/>
-            <createSequence cacheSize="20" cycle="false" incrementBy="1" ordered="false" sequenceName="SEQ_TITULO" startValue="1"/>
+        <changeSet id="00000000000003" author="livia.aurich">
+            <createSequence cacheSize="20" cycle="false" incrementBy="1" sequenceName="SEQ_ATOR" startValue="1"/>
+            <createSequence cacheSize="20" cycle="false" incrementBy="1" sequenceName="SEQ_CLASSE" startValue="1"/>
+            <createSequence cacheSize="20" cycle="false" incrementBy="1" sequenceName="SEQ_DIRETOR" startValue="1"/>
+            <createSequence cacheSize="20" cycle="false" incrementBy="1" sequenceName="SEQ_ITEM" startValue="1"/>
+            <createSequence cacheSize="20" cycle="false" incrementBy="1" sequenceName="SEQ_TITULO" startValue="1"/>
         </changeSet>
 
-        <changeSet id="2" author="livia.aurich">
+        <changeSet id="00000000000004" author="livia.aurich">
             <createTable remarks="Tabelas onde serão armazenados os atores." tableName="TB_ATOR">
                 <column name="ID" remarks="Codigo identificador de cada ator." type="NUMBER(4)">
                     <constraints nullable="false"/>
                 </column>
-                <column name="NOME" remarks="Nome do ator." type="VARCHAR2(76 CHAR)">
+                <column name="NOME" remarks="Nome do ator." type="VARCHAR2(76)">
                     <constraints nullable="false"/>
                 </column>
             </createTable>
@@ -33,7 +33,7 @@
                 <column name="ID" remarks="Codigo identificador de cada diretor." type="NUMBER(4)">
                     <constraints nullable="false"/>
                 </column>
-                <column name="NOME" remarks="Nome do diretor." type="VARCHAR2(76 CHAR)">
+                <column name="NOME" remarks="Nome do diretor." type="VARCHAR2(76)">
                     <constraints nullable="false"/>
                 </column>
             </createTable>
@@ -42,7 +42,7 @@
                 <column name="ID" remarks="Codigo identificador de cada classe." type="NUMBER(4)">
                     <constraints nullable="false"/>
                 </column>
-                <column name="NOME" remarks="Nome da classe." type="VARCHAR2(76 CHAR)">
+                <column name="NOME" remarks="Nome da classe." type="VARCHAR2(76)">
                     <constraints nullable="false"/>
                 </column>
                 <column name="VALOR" remarks="Valor da classe." type="DECIMAL(5, 2)">

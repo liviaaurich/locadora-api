@@ -4,7 +4,6 @@ import com.liviaaurich.locadora.domain.Diretor;
 import com.liviaaurich.locadora.repository.DiretorRepository;
 import com.liviaaurich.locadora.service.DiretorServico;
 import com.liviaaurich.locadora.service.dto.DiretorDTO;
-import com.liviaaurich.locadora.service.filtros.DiretorFiltro;
 import com.liviaaurich.locadora.service.mapper.DiretorMapper;
 import com.liviaaurich.locadora.web.rest.errors.BadRequestAlertException;
 import lombok.RequiredArgsConstructor;
@@ -43,9 +42,8 @@ public class DiretorServicoImpl implements DiretorServico {
     }
 
     @Override
-    public Page<DiretorDTO> obterTodos(DiretorFiltro filtro, Pageable pageable) {
-        Page<Diretor> resultado = this.diretorRepository.findAll(filtro.filter(), pageable);
-
-        return resultado.map(diretorMapper::toDto);
+    @Transactional(readOnly = true)
+    public Page<DiretorDTO> obterTodos(DiretorDTO filtro, Pageable pageable) {
+        return diretorRepository.findByFilter(filtro, pageable);
     }
 }

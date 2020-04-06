@@ -1,12 +1,16 @@
 package com.liviaaurich.locadora.service.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class DiretorDTO {
     private static final long serialVersionUID = 1L;
 

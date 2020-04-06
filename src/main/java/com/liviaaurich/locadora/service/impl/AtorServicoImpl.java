@@ -4,7 +4,6 @@ import com.liviaaurich.locadora.domain.Ator;
 import com.liviaaurich.locadora.repository.AtorRepository;
 import com.liviaaurich.locadora.service.AtorServico;
 import com.liviaaurich.locadora.service.dto.AtorDTO;
-import com.liviaaurich.locadora.service.filtros.AtorFiltro;
 import com.liviaaurich.locadora.service.mapper.AtorMapper;
 import com.liviaaurich.locadora.web.rest.errors.BadRequestAlertException;
 import lombok.RequiredArgsConstructor;
@@ -43,9 +42,8 @@ public class AtorServicoImpl implements AtorServico {
     }
 
     @Override
-    public Page<AtorDTO> obterTodos(AtorFiltro filtro, Pageable pageable) {
-        Page<Ator> resultado = this.atorRepository.findAll(filtro.filter(), pageable);
-
-        return resultado.map(atorMapper::toDto);
+    @Transactional(readOnly = true)
+    public Page<AtorDTO> obterTodos(AtorDTO filtro, Pageable pageable) {
+        return atorRepository.findByFilter(filtro, pageable);
     }
 }

@@ -4,7 +4,6 @@ import com.liviaaurich.locadora.domain.Classe;
 import com.liviaaurich.locadora.repository.ClasseRepository;
 import com.liviaaurich.locadora.service.ClasseServico;
 import com.liviaaurich.locadora.service.dto.ClasseDTO;
-import com.liviaaurich.locadora.service.filtros.ClasseFiltro;
 import com.liviaaurich.locadora.service.mapper.ClasseMapper;
 import com.liviaaurich.locadora.web.rest.errors.BadRequestAlertException;
 import lombok.RequiredArgsConstructor;
@@ -43,9 +42,8 @@ public class ClasseServicoImpl implements ClasseServico {
     }
 
     @Override
-    public Page<ClasseDTO> obterTodos(ClasseFiltro filtro, Pageable pageable) {
-        Page<Classe> resultado = this.classeRepository.findAll(filtro.filter(), pageable);
-
-        return resultado.map(classeMapper::toDto);
+    @Transactional(readOnly = true)
+    public Page<ClasseDTO> obterTodos(ClasseDTO filtro, Pageable pageable) {
+        return classeRepository.findByFilter(filtro, pageable);
     }
 }

@@ -1,10 +1,7 @@
 package com.liviaaurich.locadora.web.rest;
 
-import com.liviaaurich.locadora.service.ClasseServico;
 import com.liviaaurich.locadora.service.TituloServico;
-import com.liviaaurich.locadora.service.dto.ClasseDTO;
 import com.liviaaurich.locadora.service.dto.TituloDTO;
-import com.liviaaurich.locadora.service.filtros.ClasseFiltro;
 import com.liviaaurich.locadora.service.filtros.TituloFiltro;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;

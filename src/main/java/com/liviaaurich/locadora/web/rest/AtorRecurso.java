@@ -1,6 +1,6 @@
 package com.liviaaurich.locadora.web.rest;
 
-import com.liviaaurich.locadora.service.AtorServico;
+import com.liviaaurich.locadora.service.BaseService;
 import com.liviaaurich.locadora.service.dto.AtorDTO;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.micrometer.core.annotation.Timed;
@@ -22,17 +22,17 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 @RestController
-@RequestMapping("/api/ator")
+@RequestMapping("/api/v1/atores")
 @RequiredArgsConstructor
 public class AtorRecurso {
 
-    private static final String API_ATOR = "/ator";
+    private static final String API_ATOR = "/atores";
 
     private static final String ENTITY_NAME = "ator";
 
-    private static final String APP_NAME = "Locadora PassaTempo";
+    private static final String APP_NAME = "LocadoraPassaTempo";
 
-    private final AtorServico atorServico;
+    private final BaseService<AtorDTO> atorServico;
 
     @PostMapping
     @Timed

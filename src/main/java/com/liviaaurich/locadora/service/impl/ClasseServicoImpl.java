@@ -2,7 +2,9 @@ package com.liviaaurich.locadora.service.impl;
 
 import com.liviaaurich.locadora.domain.Classe;
 import com.liviaaurich.locadora.repository.ClasseRepository;
+import com.liviaaurich.locadora.service.BaseService;
 import com.liviaaurich.locadora.service.ClasseServico;
+import com.liviaaurich.locadora.service.dto.AtorDTO;
 import com.liviaaurich.locadora.service.dto.ClasseDTO;
 import com.liviaaurich.locadora.service.mapper.ClasseMapper;
 import com.liviaaurich.locadora.web.rest.errors.BadRequestAlertException;
@@ -17,7 +19,7 @@ import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class ClasseServicoImpl implements ClasseServico {
+public class ClasseServicoImpl implements BaseService<ClasseDTO> {
 
     private static final String MSG_CLASSE_INEXISTENTE = "Não foi possível obter a Classe. ID não está presente.";
 

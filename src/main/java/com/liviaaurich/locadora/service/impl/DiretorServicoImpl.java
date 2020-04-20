@@ -2,7 +2,9 @@ package com.liviaaurich.locadora.service.impl;
 
 import com.liviaaurich.locadora.domain.Diretor;
 import com.liviaaurich.locadora.repository.DiretorRepository;
+import com.liviaaurich.locadora.service.BaseService;
 import com.liviaaurich.locadora.service.DiretorServico;
+import com.liviaaurich.locadora.service.dto.AtorDTO;
 import com.liviaaurich.locadora.service.dto.DiretorDTO;
 import com.liviaaurich.locadora.service.mapper.DiretorMapper;
 import com.liviaaurich.locadora.web.rest.errors.BadRequestAlertException;
@@ -17,7 +19,7 @@ import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class DiretorServicoImpl implements DiretorServico {
+public class DiretorServicoImpl implements BaseService<DiretorDTO> {
 
     private static final String MSG_DIRETOR_INEXISTENTE = "Não foi possível obter o Diretor. ID não está presente.";
 

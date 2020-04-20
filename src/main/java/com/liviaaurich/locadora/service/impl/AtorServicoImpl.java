@@ -3,6 +3,7 @@ package com.liviaaurich.locadora.service.impl;
 import com.liviaaurich.locadora.domain.Ator;
 import com.liviaaurich.locadora.repository.AtorRepository;
 import com.liviaaurich.locadora.service.AtorServico;
+import com.liviaaurich.locadora.service.BaseService;
 import com.liviaaurich.locadora.service.dto.AtorDTO;
 import com.liviaaurich.locadora.service.mapper.AtorMapper;
 import com.liviaaurich.locadora.web.rest.errors.BadRequestAlertException;
@@ -17,7 +18,7 @@ import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class AtorServicoImpl implements AtorServico {
+public class AtorServicoImpl implements BaseService<AtorDTO> {
 
     private static final String MSG_ATOR_INEXISTENTE = "Não foi possível obter o Ator. ID não está presente.";
 

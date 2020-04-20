@@ -1,6 +1,6 @@
 package com.liviaaurich.locadora.web.rest;
 
-import com.liviaaurich.locadora.service.DiretorServico;
+import com.liviaaurich.locadora.service.BaseService;
 import com.liviaaurich.locadora.service.dto.DiretorDTO;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.micrometer.core.annotation.Timed;
@@ -22,7 +22,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 @RestController
-@RequestMapping("/api/diretor")
+@RequestMapping("/api/v1/diretores")
 @RequiredArgsConstructor
 public class DiretorRecurso {
 
@@ -32,7 +32,7 @@ public class DiretorRecurso {
 
     private static final String APP_NAME = "Locadora PassaTempo";
 
-    private final DiretorServico diretorServico;
+    private final BaseService<DiretorDTO> diretorServico;
 
     @PostMapping
     @Timed

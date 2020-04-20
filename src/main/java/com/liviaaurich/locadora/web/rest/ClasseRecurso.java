@@ -1,6 +1,6 @@
 package com.liviaaurich.locadora.web.rest;
 
-import com.liviaaurich.locadora.service.ClasseServico;
+import com.liviaaurich.locadora.service.BaseService;
 import com.liviaaurich.locadora.service.dto.ClasseDTO;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.micrometer.core.annotation.Timed;
@@ -22,7 +22,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 @RestController
-@RequestMapping("/api/classe")
+@RequestMapping("/api/v1/classes")
 @RequiredArgsConstructor
 public class ClasseRecurso {
 
@@ -32,7 +32,7 @@ public class ClasseRecurso {
 
     private static final String APP_NAME = "Locadora PassaTempo";
 
-    private final ClasseServico classeServico;
+    private final BaseService<ClasseDTO> classeServico;
 
     @PostMapping
     @Timed

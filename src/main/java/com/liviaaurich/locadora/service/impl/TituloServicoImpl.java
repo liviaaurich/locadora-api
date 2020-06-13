@@ -1,10 +1,13 @@
 package com.liviaaurich.locadora.service.impl;
 
 import com.liviaaurich.locadora.domain.Titulo;
+import com.liviaaurich.locadora.repository.CategoriaRepository;
 import com.liviaaurich.locadora.repository.TituloRepository;
+import com.liviaaurich.locadora.service.BaseService;
 import com.liviaaurich.locadora.service.TituloServico;
+import com.liviaaurich.locadora.service.dto.CategoriaDTO;
 import com.liviaaurich.locadora.service.dto.TituloDTO;
-import com.liviaaurich.locadora.service.filtros.TituloFiltro;
+import com.liviaaurich.locadora.service.mapper.CategoriaMapper;
 import com.liviaaurich.locadora.service.mapper.TituloMapper;
 import com.liviaaurich.locadora.web.rest.errors.BadRequestAlertException;
 import lombok.RequiredArgsConstructor;
@@ -13,17 +16,21 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class TituloServicoImpl implements TituloServico {
+public class TituloServicoImpl implements BaseService<TituloDTO>, TituloServico {
 
     private static final String MSG_TITULO_INEXISTENTE = "Não foi possível obter o Titulo. ID não está presente.";
 
     private final TituloRepository tituloRepository;
     private final TituloMapper tituloMapper;
+    private final CategoriaMapper categoriaMapper;
+    private final CategoriaRepository categoriaRepository;
 
     @Override
     public TituloDTO salvar(TituloDTO tituloDTO) {
@@ -43,9 +50,14 @@ public class TituloServicoImpl implements TituloServico {
     }
 
     @Override
-    public Page<TituloDTO> obterTodos(TituloFiltro filtro, Pageable pageable) {
-        Page<Titulo> resultado = this.tituloRepository.findAll(filtro.filter(), pageable);
+    public Page<TituloDTO> obterTodos(TituloDTO dto, Pageable pageable) {
+        Page<Titulo> resultado = null;
 
         return resultado.map(tituloMapper::toDto);
+    }
+
+    @Override
+    public List<CategoriaDTO> obterNaturezas() {
+        return categoriaMapper.toDto(categoriaRepository.findAll());
     }
 }

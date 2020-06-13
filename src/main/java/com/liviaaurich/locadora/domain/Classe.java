@@ -13,7 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -36,7 +36,7 @@ public class Classe implements Serializable {
     private Double valor;
 
     @Column(name = "PRAZO_DEVOLUCAO")
-    private LocalDateTime prazoDevolucao;
+    private LocalDate prazoDevolucao;
 
     @Override
     public boolean equals(Object o) {

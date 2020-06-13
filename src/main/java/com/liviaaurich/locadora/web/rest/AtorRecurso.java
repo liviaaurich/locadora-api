@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,7 +54,7 @@ public class AtorRecurso {
 
     @GetMapping
     @Timed
-    public ResponseEntity<Page<AtorDTO>> obterTodos(@RequestBody AtorDTO filtro, Pageable pageable) {
+    public ResponseEntity<Page<AtorDTO>> obterTodos(@ModelAttribute AtorDTO filtro, Pageable pageable) {
         Page<AtorDTO> page = this.atorServico.obterTodos(filtro, pageable);
 
         return new ResponseEntity<>(page, HttpStatus.OK);

@@ -8,7 +8,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -20,7 +20,7 @@ public class ClasseDTO implements Serializable {
     private Long id;
     private String nome;
     private Double valor;
-    private LocalDateTime prazoDevolucao;
+    private LocalDate prazoDevolucao;
 
     /**
      * {@inheritDoc}

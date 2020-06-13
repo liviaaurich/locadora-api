@@ -1,34 +1,24 @@
-package com.liviaaurich.locadora.domain;
+package com.liviaaurich.locadora.service.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.io.Serializable;
 
-@Entity
 @Getter
 @Setter
-@Table(name = "TB_CATEGORIA")
-public class Categoria implements Serializable {
+public class CategoriaDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(name = "ID")
     private Long id;
-
-    @Column(name = "DESCRICAO")
     private String descricao;
 
     @Override
     public boolean equals(Object o) {
-        return (o instanceof Categoria) && new EqualsBuilder()
-            .append(getId(), ((Categoria) o).getId())
+        return (o instanceof CategoriaDTO) && new EqualsBuilder()
+            .append(getId(), ((CategoriaDTO) o).getId())
             .isEquals();
     }
 
@@ -38,5 +28,4 @@ public class Categoria implements Serializable {
             .append(getId())
             .toHashCode();
     }
-
 }

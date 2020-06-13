@@ -1,6 +1,9 @@
 package com.liviaaurich.locadora.web.rest;
 
+import com.liviaaurich.locadora.service.BaseService;
 import com.liviaaurich.locadora.service.TituloServico;
+import com.liviaaurich.locadora.service.dto.CategoriaDTO;
+import com.liviaaurich.locadora.service.dto.ClasseDTO;
 import com.liviaaurich.locadora.service.dto.TituloDTO;
 import com.liviaaurich.locadora.service.filtros.TituloFiltro;
 import io.github.jhipster.web.util.HeaderUtil;
@@ -25,22 +28,25 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/titulo")
+@RequestMapping("/api/v1/titulos")
 @RequiredArgsConstructor
 public class TituloRecurso {
 
-    private static final String API_TITULO = "/titulo";
+    private static final String API_TITULO = "/titulos";
 
     private static final String ENTITY_NAME = "titulo";
+
+    private final BaseService<TituloDTO> baseService;
 
     private final TituloServico tituloServico;
 
     @PostMapping
     @Timed
     public ResponseEntity<TituloDTO> salvar(@Valid @RequestBody TituloDTO tituloDTO) throws URISyntaxException {
-        TituloDTO result = tituloServico.salvar(tituloDTO);
+        TituloDTO result = baseService.salvar(tituloDTO);
 
         return ResponseEntity.created(new URI(API_TITULO + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(null, false, ENTITY_NAME, result.getId().toString()))
@@ -50,16 +56,23 @@ public class TituloRecurso {
     @DeleteMapping("/{id}")
     @Timed
     public ResponseEntity excluir(@PathVariable Long id) {
-        tituloServico.excluir(id);
+        baseService.excluir(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(null, false, ENTITY_NAME, id.toString())).build();
     }
 
     @GetMapping
     @Timed
-    public ResponseEntity<Page<TituloDTO>> obterTodos(@ModelAttribute TituloFiltro filtro, Pageable pageable) {
-        Page<TituloDTO> page = this.tituloServico.obterTodos(filtro, pageable);
+    public ResponseEntity<Page<TituloDTO>> obterTodos(@ModelAttribute TituloDTO filtro, Pageable pageable) {
+        Page<TituloDTO> page = this.baseService.obterTodos(filtro, pageable);
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(UriComponentsBuilder.newInstance(), page);
         return new ResponseEntity<>(page, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/categorias/")
+    @Timed
+    public ResponseEntity<List<CategoriaDTO>> obterCategorias() {
+        List<CategoriaDTO> result = tituloServico.obterNaturezas();
+        return new ResponseEntity<>(result, null, HttpStatus.OK);
     }
 }

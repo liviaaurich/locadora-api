@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,11 +27,11 @@ import java.net.URISyntaxException;
 @RequiredArgsConstructor
 public class DiretorRecurso {
 
-    private static final String API_DIRETOR = "/diretor";
+    private static final String API_DIRETOR = "/diretores";
 
     private static final String ENTITY_NAME = "diretor";
 
-    private static final String APP_NAME = "Locadora PassaTempo";
+    private static final String APP_NAME = "LocadoraPassaTempo";
 
     private final BaseService<DiretorDTO> diretorServico;
 
@@ -53,7 +54,7 @@ public class DiretorRecurso {
 
     @GetMapping
     @Timed
-    public ResponseEntity<Page<DiretorDTO>> obterTodos(@RequestBody DiretorDTO filtro, Pageable pageable) {
+    public ResponseEntity<Page<DiretorDTO>> obterTodos(@ModelAttribute DiretorDTO filtro, Pageable pageable) {
         Page<DiretorDTO> page = this.diretorServico.obterTodos(filtro, pageable);
 
         return new ResponseEntity<>(page, HttpStatus.OK);

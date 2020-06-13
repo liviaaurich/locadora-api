@@ -12,9 +12,13 @@ import org.springframework.data.repository.query.Param;
 public interface ClasseRepository extends JpaRepository<Classe, Long>, JpaSpecificationExecutor<Classe> {
 
     @Query("SELECT new com.liviaaurich.locadora.service.dto.ClasseDTO(c.id, c.nome, c.valor, c.prazoDevolucao) FROM Classe c" +
-        " WHERE (:#{#filtro.nome} IS NULL OR LOWER(c.nome) LIKE LOWER(CONCAT(CONCAT('%', :#{#filtro.nome}), '%')))" +
-        " AND (:#{#filtro.valor} IS NULL OR c.valor = :#{#filtro.valor})" +
-        " AND (:#{#filtro.prazoDevolucao} IS NULL OR TRUNC(c.prazoDevolucao) = TO_DATE(:#{#filtro.prazoDevolucao}, 'DD/MM/YYYY'))")
+        " WHERE (:#{#filtro.nome} IS NULL OR LOWER(c.nome) LIKE LOWER(CONCAT(CONCAT('%', :#{#filtro.nome}), '%')))")
     Page<ClasseDTO> findByFilter(@Param("filtro") ClasseDTO dto, Pageable pageable);
+
+//    @Query("SELECT new com.liviaaurich.locadora.service.dto.ClasseDTO(c.id, c.nome, c.valor, c.prazoDevolucao) FROM Classe c" +
+//        " WHERE (:#{#filtro.nome} IS NULL OR LOWER(c.nome) LIKE LOWER(CONCAT(CONCAT('%', :#{#filtro.nome}), '%')))" +
+//        " AND (:#{#filtro.valor} IS NULL OR c.valor = :#{#filtro.valor})" +
+//        " AND (:#{#filtro.prazoDevolucao} IS NULL OR TRUNC(c.prazoDevolucao) = TO_DATE(:#{#filtro.prazoDevolucao}, 'DD/MM/YYYY'))")
+//    Page<ClasseDTO> findByFilter(@Param("filtro") ClasseDTO dto, Pageable pageable);
 
 }

@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,11 +27,11 @@ import java.net.URISyntaxException;
 @RequiredArgsConstructor
 public class ClasseRecurso {
 
-    private static final String API_CLASSE = "/classe";
+    private static final String API_CLASSE = "/classes";
 
     private static final String ENTITY_NAME = "classe";
 
-    private static final String APP_NAME = "Locadora PassaTempo";
+    private static final String APP_NAME = "LocadoraPassaTempo";
 
     private final BaseService<ClasseDTO> classeServico;
 
@@ -53,7 +54,7 @@ public class ClasseRecurso {
 
     @GetMapping
     @Timed
-    public ResponseEntity<Page<ClasseDTO>> obterTodos(@RequestBody ClasseDTO filtro, Pageable pageable) {
+    public ResponseEntity<Page<ClasseDTO>> obterTodos(@ModelAttribute ClasseDTO filtro, Pageable pageable) {
         Page<ClasseDTO> page = this.classeServico.obterTodos(filtro, pageable);
 
         return new ResponseEntity<>(page, HttpStatus.OK);

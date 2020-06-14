@@ -2,6 +2,7 @@ package com.liviaaurich.locadora.web.rest;
 
 import com.liviaaurich.locadora.service.BaseService;
 import com.liviaaurich.locadora.service.dto.AtorDTO;
+import com.liviaaurich.locadora.service.dto.dropdown.DropdownDTO;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/atores")
@@ -58,6 +60,13 @@ public class AtorRecurso {
         Page<AtorDTO> page = this.atorServico.obterTodos(filtro, pageable);
 
         return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+
+    @GetMapping("/dropdown/")
+    @Timed
+    public ResponseEntity<List<DropdownDTO>> obterAtoresDropdown() {
+        List<DropdownDTO> result = atorServico.obterDropdown();
+        return new ResponseEntity<>(result, null, HttpStatus.OK);
     }
 
 }

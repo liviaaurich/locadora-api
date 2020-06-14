@@ -19,7 +19,7 @@ public class TituloDTO implements Serializable {
     private String ano;
     private String sinopse;
     private Long idDiretor;
-    private Long idCategoria;
+    private CategoriaDTO categoriaDTO;
     private Long idClasse;
     private List<AtorDTO> listaAtores = new ArrayList<>();
 

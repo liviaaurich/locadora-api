@@ -3,16 +3,19 @@ package com.liviaaurich.locadora.service.impl;
 import com.liviaaurich.locadora.domain.Classe;
 import com.liviaaurich.locadora.repository.ClasseRepository;
 import com.liviaaurich.locadora.service.BaseService;
-import com.liviaaurich.locadora.service.ClasseServico;
-import com.liviaaurich.locadora.service.dto.AtorDTO;
 import com.liviaaurich.locadora.service.dto.ClasseDTO;
+import com.liviaaurich.locadora.service.dto.dropdown.DropdownDTO;
 import com.liviaaurich.locadora.service.mapper.ClasseMapper;
+import com.liviaaurich.locadora.service.mapper.dropdown.ClasseDropdownMapper;
 import com.liviaaurich.locadora.web.rest.errors.BadRequestAlertException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
 
@@ -25,6 +28,7 @@ public class ClasseServicoImpl implements BaseService<ClasseDTO> {
 
     private final ClasseRepository classeRepository;
     private final ClasseMapper classeMapper;
+    private final ClasseDropdownMapper classeDropdownMapper;
 
     @Override
     public ClasseDTO salvar(ClasseDTO classeDTO) {
@@ -47,5 +51,10 @@ public class ClasseServicoImpl implements BaseService<ClasseDTO> {
     @Transactional(readOnly = true)
     public Page<ClasseDTO> obterTodos(ClasseDTO filtro, Pageable pageable) {
         return classeRepository.findByFilter(filtro, pageable);
+    }
+
+    @Override
+    public List<DropdownDTO> obterDropdown() {
+        return classeRepository.findAll().stream().map(classeDropdownMapper::toDto).collect(Collectors.toList());
     }
 }

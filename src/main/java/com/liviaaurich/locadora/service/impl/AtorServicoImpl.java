@@ -5,13 +5,18 @@ import com.liviaaurich.locadora.repository.AtorRepository;
 import com.liviaaurich.locadora.service.AtorServico;
 import com.liviaaurich.locadora.service.BaseService;
 import com.liviaaurich.locadora.service.dto.AtorDTO;
+import com.liviaaurich.locadora.service.dto.dropdown.DropdownDTO;
 import com.liviaaurich.locadora.service.mapper.AtorMapper;
+import com.liviaaurich.locadora.service.mapper.dropdown.AtorDropDownMapper;
 import com.liviaaurich.locadora.web.rest.errors.BadRequestAlertException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
 
@@ -24,6 +29,7 @@ public class AtorServicoImpl implements BaseService<AtorDTO> {
 
     private final AtorRepository atorRepository;
     private final AtorMapper atorMapper;
+    private final AtorDropDownMapper atorDropDownMapper;
 
     @Override
     public AtorDTO salvar(AtorDTO atorDTO) {
@@ -46,5 +52,10 @@ public class AtorServicoImpl implements BaseService<AtorDTO> {
     @Transactional(readOnly = true)
     public Page<AtorDTO> obterTodos(AtorDTO filtro, Pageable pageable) {
         return atorRepository.findByFilter(filtro, pageable);
+    }
+
+    @Override
+    public List<DropdownDTO> obterDropdown() {
+        return atorRepository.findAll().stream().map(atorDropDownMapper::toDto).collect(Collectors.toList());
     }
 }

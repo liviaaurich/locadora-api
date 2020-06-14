@@ -3,9 +3,8 @@ package com.liviaaurich.locadora.web.rest;
 import com.liviaaurich.locadora.service.BaseService;
 import com.liviaaurich.locadora.service.TituloServico;
 import com.liviaaurich.locadora.service.dto.CategoriaDTO;
-import com.liviaaurich.locadora.service.dto.ClasseDTO;
 import com.liviaaurich.locadora.service.dto.TituloDTO;
-import com.liviaaurich.locadora.service.filtros.TituloFiltro;
+import com.liviaaurich.locadora.service.dto.dropdown.DropdownDTO;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.micrometer.core.annotation.Timed;
@@ -73,6 +72,13 @@ public class TituloRecurso {
     @Timed
     public ResponseEntity<List<CategoriaDTO>> obterCategorias() {
         List<CategoriaDTO> result = tituloServico.obterNaturezas();
+        return new ResponseEntity<>(result, null, HttpStatus.OK);
+    }
+
+    @GetMapping("/dropdown/")
+    @Timed
+    public ResponseEntity<List<DropdownDTO>> obterTitulosDropdown() {
+        List<DropdownDTO> result = baseService.obterDropdown();
         return new ResponseEntity<>(result, null, HttpStatus.OK);
     }
 }

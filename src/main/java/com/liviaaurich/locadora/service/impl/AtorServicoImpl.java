@@ -2,6 +2,8 @@ package com.liviaaurich.locadora.service.impl;
 
 import com.liviaaurich.locadora.domain.Ator;
 import com.liviaaurich.locadora.repository.AtorRepository;
+import com.liviaaurich.locadora.repository.RelAtorTituloRepository;
+import com.liviaaurich.locadora.repository.TituloRepository;
 import com.liviaaurich.locadora.service.AtorServico;
 import com.liviaaurich.locadora.service.BaseService;
 import com.liviaaurich.locadora.service.dto.AtorDTO;
@@ -26,10 +28,12 @@ import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
 public class AtorServicoImpl implements BaseService<AtorDTO> {
 
     private static final String MSG_ATOR_INEXISTENTE = "Não foi possível obter o Ator. ID não está presente.";
+    private static final String ATOR = "Ator";
 
     private final AtorRepository atorRepository;
     private final AtorMapper atorMapper;
     private final AtorDropDownMapper atorDropDownMapper;
+    private final RelAtorTituloRepository relAtorTituloRepository;
 
     @Override
     public AtorDTO salvar(AtorDTO atorDTO) {
@@ -44,6 +48,10 @@ public class AtorServicoImpl implements BaseService<AtorDTO> {
     public void excluir(Long id) {
         Ator ator = atorRepository.findById(id).orElseThrow(() ->
             new BadRequestAlertException(MSG_ATOR_INEXISTENTE, ENTITY_NAME, "id"));
+
+        if(!relAtorTituloRepository.findAllByIdIdAtor(ator.getId()).isEmpty()) {
+            throw new BadRequestAlertException("O Ator selecionado está vinculado a um Título.", ENTITY_NAME, ATOR);
+        }
 
         atorRepository.delete(ator);
     }

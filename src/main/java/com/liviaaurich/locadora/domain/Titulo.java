@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -56,11 +58,8 @@ public class Titulo implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Classe classe;
 
-    @ManyToMany
-    @JoinTable(name = "REL_ATOR_TITULO",
-        joinColumns = @JoinColumn(name = "ID_TITULO", referencedColumnName = "ID"),
-        inverseJoinColumns= @JoinColumn(name = "ID_ATOR", referencedColumnName = "ID"))
-    private List<Ator> listaAtores = new ArrayList<>();
+    @OneToMany(mappedBy = "titulo", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RelAtorTitulo> listaAtores = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

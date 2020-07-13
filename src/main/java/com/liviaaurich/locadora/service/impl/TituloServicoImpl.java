@@ -1,7 +1,9 @@
 package com.liviaaurich.locadora.service.impl;
 
 import com.liviaaurich.locadora.domain.Titulo;
+import com.liviaaurich.locadora.repository.AtorRepository;
 import com.liviaaurich.locadora.repository.CategoriaRepository;
+import com.liviaaurich.locadora.repository.ItemRepository;
 import com.liviaaurich.locadora.repository.TituloRepository;
 import com.liviaaurich.locadora.service.BaseService;
 import com.liviaaurich.locadora.service.TituloServico;
@@ -29,17 +31,21 @@ import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
 public class TituloServicoImpl implements BaseService<TituloDTO>, TituloServico {
 
     private static final String MSG_TITULO_INEXISTENTE = "Não foi possível obter o Titulo. ID não está presente.";
+    private static final String TITULO = "Título";
 
     private final TituloRepository tituloRepository;
     private final TituloMapper tituloMapper;
     private final CategoriaMapper categoriaMapper;
     private final CategoriaRepository categoriaRepository;
     private final TituloDropdownMapper tituloDropdownMapper;
+    private final ItemRepository itemRepository;
+    private final AtorRepository atorRepository;
 
     @Override
+    @Transactional
     public TituloDTO salvar(TituloDTO tituloDTO) {
         Titulo titulo = tituloMapper.toEntity(tituloDTO);
-
+        vincularAtoresTitulo(titulo);
         tituloRepository.save(titulo);
 
         return tituloMapper.toDto(titulo);
@@ -50,14 +56,16 @@ public class TituloServicoImpl implements BaseService<TituloDTO>, TituloServico 
         Titulo titulo = tituloRepository.findById(id).orElseThrow(() ->
             new BadRequestAlertException(MSG_TITULO_INEXISTENTE, ENTITY_NAME, "id"));
 
+        if(!itemRepository.findAllByTituloId(titulo.getId()).isEmpty()) {
+            throw new BadRequestAlertException("O Título selecionado está vinculado a um Item.", ENTITY_NAME, TITULO);
+        }
+
         tituloRepository.delete(titulo);
     }
 
     @Override
     public Page<TituloDTO> obterTodos(TituloDTO dto, Pageable pageable) {
-        Page<Titulo> resultado = null;
-
-        return resultado.map(tituloMapper::toDto);
+        return tituloRepository.findAll(pageable).map(tituloMapper::toDto);
     }
 
     @Override
@@ -66,7 +74,14 @@ public class TituloServicoImpl implements BaseService<TituloDTO>, TituloServico 
     }
 
     @Override
-    public List<CategoriaDTO> obterNaturezas() {
+    public List<CategoriaDTO> obterCategorias() {
         return categoriaMapper.toDto(categoriaRepository.findAll());
+    }
+
+    private void vincularAtoresTitulo(Titulo titulo) {
+        titulo.getListaAtores().forEach(ator -> {
+            ator.setTitulo(titulo);
+            ator.setAtor(atorRepository.getOne(ator.getAtor().getId()));
+        });
     }
 }

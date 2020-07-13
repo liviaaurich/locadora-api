@@ -71,7 +71,7 @@ public class TituloRecurso {
     @GetMapping("/categorias/")
     @Timed
     public ResponseEntity<List<CategoriaDTO>> obterCategorias() {
-        List<CategoriaDTO> result = tituloServico.obterNaturezas();
+        List<CategoriaDTO> result = tituloServico.obterCategorias();
         return new ResponseEntity<>(result, null, HttpStatus.OK);
     }
 

@@ -15,9 +15,11 @@ public class ItemDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
+    private String numeroSerie;
     private TipoItemEnum tipoItem;
     private LocalDateTime dataAquisicao;
     private Long idTitulo;
+    private String descricaoTitulo;
 
     /**
      * {@inheritDoc}

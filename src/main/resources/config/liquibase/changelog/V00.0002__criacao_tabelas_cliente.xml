@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="autoIncrement" value="true"/>
+
+    <property name="now" value="now()" dbms="h2"/>
+    <property name="now" value="sysdate" dbms="postgree"/>
+
+    <changeSet id="00000000000008" author="livia.aurich">
+        <createSequence cacheSize="20" cycle="false" incrementBy="1" sequenceName="SEQ_CLASSE" startValue="1"/>
+        <createSequence cacheSize="20" cycle="false" incrementBy="1" sequenceName="SEQ_DEPENDENTE" startValue="1"/>
+        <createSequence cacheSize="20" cycle="false" incrementBy="1" sequenceName="SEQ_LOCACAO" startValue="1"/>
+    </changeSet>
+
+    <changeSet id="00000000000009" author="livia.aurich">
+        <createTable tableName="TB_SOCIO">
+            <column name="ID" type="NUMBER(19, 0)" remarks="Identificador do socio">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="NOME" type="VARCHAR(40)" remarks="Nome do socio">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="CPF" type="VARCHAR(11)" remarks="Cpf do socio">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="ENDERECO" type="VARCHAR(40)" remarks="Endereco do socio">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="TELEFONE" type="VARCHAR(13)" remarks="Telefone do socio">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="DATA_NASCIMENTO" type="timestamp" remarks="Data do nascimento do socio">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="SEXO" type="VARCHAR(1)" remarks="Sexo">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="SITUACAO" type="boolean" remarks="Situacao do socio">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00000000000010" author="livia.aurich">
+        <createTable tableName="TB_DEPENDENTE">
+            <column name="ID" type="NUMBER(19, 0)" remarks="Identificador do dependente">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="NOME" type="VARCHAR(40)" remarks="Nome do dependente">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="CPF" type="VARCHAR(11)" remarks="Cpf do dependente">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="ENDERECO" type="VARCHAR(40)" remarks="Endereco do dependente">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="TELEFONE" type="VARCHAR(13)" remarks="Telefone do dependente">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="DATA_NASCIMENTO" type="timestamp" remarks="Data do nascimento do dependente">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="SEXO" type="VARCHAR(1)" remarks="Sexo do dependente">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="SITUACAO" type="boolean" remarks="Situacao do dependente">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="ID_SOCIO" type="NUMBER(19, 0)">
+                <constraints nullable="false" foreignKeyName="FK_TB_DEPENDENTE_TB_SOCIO" references="TB_SOCIO(ID)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00000000000011" author="livia.aurich">
+        <createTable tableName="TB_LOCACAO">
+            <column name="ID" type="NUMBER(19, 0)" remarks="Identificador da locacao">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="DATA_LOCACAO" type="timestamp" remarks="Data da locacao">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="DATA_DEVOLUCAO_PREVISTA" type="timestamp" remarks="Data da devolucao prevista">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="DATA_DEVOLUCAO_EFETIVA" type="timestamp" remarks="Data da devolucao efetiva">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="VALOR_COBRADO" type="NUMBER(5, 2)" remarks="Valor cobrado">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="ID_ITEM" type="NUMBER(19, 0)">
+                <constraints nullable="false" foreignKeyName="FK_TB_LOCACAO_TB_ITEM" references="TB_ITEM(ID)"/>
+            </column>
+
+            <column name="ID_SOCIO" type="NUMBER(19, 0)">
+                <constraints nullable="false" foreignKeyName="FK_TB_LOCACAO_TB_SOCIO" references="TB_SOCIO(ID)"/>
+            </column>
+
+            <column name="ID_DEPENDENTE" type="NUMBER(19, 0)">
+                <constraints nullable="false" foreignKeyName="FK_TB_LOCACAO_TB_DEPENDENTE" references="TB_DEPENDENTE(ID)"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

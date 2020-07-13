@@ -34,6 +34,9 @@ public class Item implements Serializable {
     @Column(name = "ID")
     private Long id;
 
+    @Column(name = "NUM_SERIE")
+    private String numeroSerie;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "ITEM")
     private TipoItemEnum tipoItem;

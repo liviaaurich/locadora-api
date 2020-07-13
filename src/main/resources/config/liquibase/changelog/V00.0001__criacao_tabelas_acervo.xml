@@ -141,10 +141,10 @@
                 <column name="ID" remarks="Codigo identificador de cada item." type="NUMBER(4)">
                     <constraints nullable="false"/>
                 </column>
-                <column name="ITEM" remarks="Tipo do item." type="VARCHAR2(10)">
+                <column name="NUM_SERIE" remarks="Número da sério referente ao item." type="VARCHAR2(10)">
                     <constraints nullable="false"/>
                 </column>
-                <column name="VALOR" remarks="Valor da classe." type="DECIMAL(5, 2)">
+                <column name="ITEM" remarks="Tipo do item." type="VARCHAR2(10)">
                     <constraints nullable="false"/>
                 </column>
                 <column name="DATA_AQUISICAO" remarks="Data de aquisição do item." type="DATE">

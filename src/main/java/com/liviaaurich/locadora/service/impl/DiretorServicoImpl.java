@@ -2,6 +2,7 @@ package com.liviaaurich.locadora.service.impl;
 
 import com.liviaaurich.locadora.domain.Diretor;
 import com.liviaaurich.locadora.repository.DiretorRepository;
+import com.liviaaurich.locadora.repository.TituloRepository;
 import com.liviaaurich.locadora.service.BaseService;
 import com.liviaaurich.locadora.service.dto.DiretorDTO;
 import com.liviaaurich.locadora.service.dto.dropdown.DropdownDTO;
@@ -25,10 +26,12 @@ import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
 public class DiretorServicoImpl implements BaseService<DiretorDTO> {
 
     private static final String MSG_DIRETOR_INEXISTENTE = "Não foi possível obter o Diretor. ID não está presente.";
+    private static final String DIRETOR = "Diretor";
 
     private final DiretorRepository diretorRepository;
     private final DiretorMapper diretorMapper;
     private final DiretorDropdownMapper diretorDropdownMapper;
+    private final TituloRepository tituloRepository;
 
     @Override
     public DiretorDTO salvar(DiretorDTO diretorDTO) {
@@ -43,6 +46,10 @@ public class DiretorServicoImpl implements BaseService<DiretorDTO> {
     public void excluir(Long id) {
         Diretor diretor = diretorRepository.findById(id).orElseThrow(() ->
             new BadRequestAlertException(MSG_DIRETOR_INEXISTENTE, ENTITY_NAME, "id"));
+
+        if(!tituloRepository.findAllByDiretorId(diretor.getId()).isEmpty()) {
+            throw new BadRequestAlertException("O Diretor selecionado está vinculado a um Título.", ENTITY_NAME, DIRETOR);
+        }
 
         diretorRepository.delete(diretor);
     }

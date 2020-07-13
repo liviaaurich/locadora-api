@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface TituloServico {
 
-    List<CategoriaDTO> obterNaturezas();
+    List<CategoriaDTO> obterCategorias();
 }

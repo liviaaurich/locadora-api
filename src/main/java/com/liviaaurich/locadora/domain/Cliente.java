@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @MappedSuperclass
-public class Cliente implements Serializable {
+public abstract class Cliente implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Column(name = "NOME")

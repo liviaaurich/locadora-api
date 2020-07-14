@@ -3,8 +3,6 @@ package com.liviaaurich.locadora.service.impl;
 import com.liviaaurich.locadora.domain.Ator;
 import com.liviaaurich.locadora.repository.AtorRepository;
 import com.liviaaurich.locadora.repository.RelAtorTituloRepository;
-import com.liviaaurich.locadora.repository.TituloRepository;
-import com.liviaaurich.locadora.service.AtorServico;
 import com.liviaaurich.locadora.service.BaseService;
 import com.liviaaurich.locadora.service.dto.AtorDTO;
 import com.liviaaurich.locadora.service.dto.dropdown.DropdownDTO;

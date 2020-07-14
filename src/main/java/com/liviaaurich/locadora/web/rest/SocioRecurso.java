@@ -1,7 +1,7 @@
 package com.liviaaurich.locadora.web.rest;
 
 import com.liviaaurich.locadora.service.BaseService;
-import com.liviaaurich.locadora.service.dto.ItemDTO;
+import com.liviaaurich.locadora.service.dto.SocioDTO;
 import com.liviaaurich.locadora.service.dto.dropdown.DropdownDTO;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -28,22 +28,22 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/itens")
+@RequestMapping("/api/v1/socios")
 @RequiredArgsConstructor
-public class ItemRecurso {
+public class SocioRecurso {
 
-    private static final String API_ITEM = "/itens";
+    private static final String API_TITULO = "/socios";
 
-    private static final String ENTITY_NAME = "item";
+    private static final String ENTITY_NAME = "sócio";
 
-    private final BaseService<ItemDTO> baseService;
+    private final BaseService<SocioDTO> baseService;
 
     @PostMapping
     @Timed
-    public ResponseEntity<ItemDTO> salvar(@Valid @RequestBody ItemDTO itemDTO) throws URISyntaxException {
-        ItemDTO result = baseService.salvar(itemDTO);
+    public ResponseEntity<SocioDTO> salvar(@Valid @RequestBody SocioDTO socioDTO) throws URISyntaxException {
+        SocioDTO result = baseService.salvar(socioDTO);
 
-        return ResponseEntity.created(new URI(API_ITEM + result.getId()))
+        return ResponseEntity.created(new URI(API_TITULO + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(null, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
@@ -57,8 +57,8 @@ public class ItemRecurso {
 
     @GetMapping
     @Timed
-    public ResponseEntity<Page<ItemDTO>> obterTodos(@ModelAttribute ItemDTO filtro, Pageable pageable) {
-        Page<ItemDTO> page = this.baseService.obterTodos(filtro, pageable);
+    public ResponseEntity<Page<SocioDTO>> obterTodos(@ModelAttribute SocioDTO filtro, Pageable pageable) {
+        Page<SocioDTO> page = this.baseService.obterTodos(filtro, pageable);
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(UriComponentsBuilder.newInstance(), page);
         return new ResponseEntity<>(page, headers, HttpStatus.OK);

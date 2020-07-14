@@ -4,6 +4,6 @@ import com.liviaaurich.locadora.domain.Classe;
 import com.liviaaurich.locadora.service.dto.ClasseDTO;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring", uses = {})
+@Mapper(componentModel = "spring")
 public interface ClasseMapper extends EntityMapper<ClasseDTO, Classe> {
 }

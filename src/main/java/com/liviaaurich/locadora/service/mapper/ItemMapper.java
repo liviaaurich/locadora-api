@@ -7,7 +7,7 @@ import com.liviaaurich.locadora.service.dto.TituloDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = {})
+@Mapper(componentModel = "spring")
 public interface ItemMapper extends EntityMapper<ItemDTO, Item> {
 
     /**

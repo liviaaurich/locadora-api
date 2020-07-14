@@ -4,6 +4,6 @@ import com.liviaaurich.locadora.domain.Diretor;
 import com.liviaaurich.locadora.service.dto.DiretorDTO;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring", uses = {})
+@Mapper(componentModel = "spring")
 public interface DiretorMapper extends EntityMapper<DiretorDTO, Diretor> {
 }

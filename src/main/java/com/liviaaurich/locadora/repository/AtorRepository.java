@@ -5,11 +5,12 @@ import com.liviaaurich.locadora.service.dto.AtorDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
-public interface AtorRepository extends JpaRepository<Ator, Long>, JpaSpecificationExecutor<Ator> {
+@Repository
+public interface AtorRepository extends JpaRepository<Ator, Long> {
 
     @Query("SELECT new com.liviaaurich.locadora.service.dto.AtorDTO(a.id, a.nome) FROM Ator a" +
         " WHERE (:#{#filtro.nome} IS NULL OR LOWER(a.nome) LIKE LOWER(CONCAT(CONCAT('%', :#{#filtro.nome}), '%')))")

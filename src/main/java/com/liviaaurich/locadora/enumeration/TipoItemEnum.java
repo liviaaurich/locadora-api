@@ -5,13 +5,15 @@ import lombok.Getter;
 @Getter
 public enum TipoItemEnum {
 
-    FITA("Fita"),
-    DVD("DVD"),
-    BLURAY("BLURAY");
+    FITA(0, "Fita"),
+    DVD(1, "DVD"),
+    BLURAY(2, "BLURAY");
 
+    private Integer id;
     private String descricao;
 
-    TipoItemEnum(String descricao) {
+    TipoItemEnum(Integer id, String descricao) {
+        this.id = id;
         this.descricao = descricao;
     }
 

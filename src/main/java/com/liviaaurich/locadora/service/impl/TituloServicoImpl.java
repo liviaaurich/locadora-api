@@ -6,7 +6,6 @@ import com.liviaaurich.locadora.repository.CategoriaRepository;
 import com.liviaaurich.locadora.repository.ItemRepository;
 import com.liviaaurich.locadora.repository.TituloRepository;
 import com.liviaaurich.locadora.service.BaseService;
-import com.liviaaurich.locadora.service.TituloServico;
 import com.liviaaurich.locadora.service.dto.CategoriaDTO;
 import com.liviaaurich.locadora.service.dto.TituloDTO;
 import com.liviaaurich.locadora.service.dto.dropdown.DropdownDTO;
@@ -28,7 +27,7 @@ import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class TituloServicoImpl implements BaseService<TituloDTO>, TituloServico {
+public class TituloServicoImpl implements BaseService<TituloDTO> {
 
     private static final String MSG_TITULO_INEXISTENTE = "Não foi possível obter o Titulo. ID não está presente.";
     private static final String TITULO = "Título";

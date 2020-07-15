@@ -63,18 +63,6 @@
                 <constraints nullable="false"/>
             </column>
 
-            <column name="CPF" type="VARCHAR(11)" remarks="Cpf do dependente">
-                <constraints nullable="false"/>
-            </column>
-
-            <column name="ENDERECO" type="VARCHAR(40)" remarks="Endereco do dependente">
-                <constraints nullable="true"/>
-            </column>
-
-            <column name="TELEFONE" type="VARCHAR(13)" remarks="Telefone do dependente">
-                <constraints nullable="true"/>
-            </column>
-
             <column name="DATA_NASCIMENTO" type="timestamp" remarks="Data do nascimento do dependente">
                 <constraints nullable="false"/>
             </column>

@@ -1,6 +1,8 @@
 package com.liviaaurich.locadora.web.rest;
 
 import com.liviaaurich.locadora.service.BaseService;
+import com.liviaaurich.locadora.service.ClienteService;
+import com.liviaaurich.locadora.service.dto.ClienteDTO;
 import com.liviaaurich.locadora.service.dto.DependenteDTO;
 import com.liviaaurich.locadora.service.dto.dropdown.DropdownDTO;
 import io.github.jhipster.web.util.HeaderUtil;
@@ -38,6 +40,8 @@ public class DependenteRecurso {
 
     private final BaseService<DependenteDTO> baseService;
 
+    private final ClienteService clienteService;
+
     @PostMapping
     @Timed
     public ResponseEntity<DependenteDTO> salvar(@Valid @RequestBody DependenteDTO dependenteDTO) throws URISyntaxException {
@@ -55,13 +59,21 @@ public class DependenteRecurso {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(null, false, ENTITY_NAME, id.toString())).build();
     }
 
-    @GetMapping
+    @GetMapping("/socio/{id}")
     @Timed
-    public ResponseEntity<Page<DependenteDTO>> obterTodos(@ModelAttribute DependenteDTO filtro, Pageable pageable) {
-        Page<DependenteDTO> page = this.baseService.obterTodos(filtro, pageable);
+    public ResponseEntity<Page<DependenteDTO>> obterTodosPorSocio(@ModelAttribute DependenteDTO filtro, Pageable pageable, @PathVariable Long id) {
+        Page<DependenteDTO> page = this.clienteService.obterTodosBySocio(filtro, pageable, id);
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(UriComponentsBuilder.newInstance(), page);
         return new ResponseEntity<>(page, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/clientes/")
+    @Timed
+    public ResponseEntity<List<ClienteDTO>> obterTodosClientes() {
+        List<ClienteDTO> result = this.clienteService.obterTodosClientes();
+
+        return new ResponseEntity<>(result, null, HttpStatus.OK);
     }
 
     @GetMapping("/dropdown/")

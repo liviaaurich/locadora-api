@@ -1,7 +1,6 @@
 package com.liviaaurich.locadora.web.rest;
 
 import com.liviaaurich.locadora.service.BaseService;
-import com.liviaaurich.locadora.service.TituloServico;
 import com.liviaaurich.locadora.service.dto.CategoriaDTO;
 import com.liviaaurich.locadora.service.dto.TituloDTO;
 import com.liviaaurich.locadora.service.dto.dropdown.DropdownDTO;
@@ -40,8 +39,6 @@ public class TituloRecurso {
 
     private final BaseService<TituloDTO> baseService;
 
-    private final TituloServico tituloServico;
-
     @PostMapping
     @Timed
     public ResponseEntity<TituloDTO> salvar(@Valid @RequestBody TituloDTO tituloDTO) throws URISyntaxException {
@@ -71,7 +68,7 @@ public class TituloRecurso {
     @GetMapping("/categorias/")
     @Timed
     public ResponseEntity<List<CategoriaDTO>> obterCategorias() {
-        List<CategoriaDTO> result = tituloServico.obterCategorias();
+        List<CategoriaDTO> result = baseService.obterCategorias();
         return new ResponseEntity<>(result, null, HttpStatus.OK);
     }
 

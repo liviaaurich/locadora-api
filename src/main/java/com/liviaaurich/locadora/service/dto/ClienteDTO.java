@@ -6,19 +6,14 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class DependenteDTO implements Serializable {
+public class ClienteDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
-    private Long idSocio;
-
     private String nome;
-    private LocalDateTime dtNascimento;
-    private String sexo;
     private Boolean status;
 
     /**
@@ -26,8 +21,8 @@ public class DependenteDTO implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-        return (o instanceof DependenteDTO) && new EqualsBuilder()
-            .append(getId(), ((DependenteDTO) o).getId())
+        return (o instanceof ClienteDTO) && new EqualsBuilder()
+            .append(getId(), ((ClienteDTO) o).getId())
             .isEquals();
     }
 

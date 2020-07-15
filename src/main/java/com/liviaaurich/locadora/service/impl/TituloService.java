@@ -1,9 +1,7 @@
 package com.liviaaurich.locadora.service.impl;
 
 import com.liviaaurich.locadora.domain.Titulo;
-import com.liviaaurich.locadora.repository.AtorRepository;
 import com.liviaaurich.locadora.repository.CategoriaRepository;
-import com.liviaaurich.locadora.repository.ItemRepository;
 import com.liviaaurich.locadora.repository.TituloRepository;
 import com.liviaaurich.locadora.service.BaseService;
 import com.liviaaurich.locadora.service.dto.CategoriaDTO;
@@ -27,18 +25,20 @@ import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class TituloServicoImpl implements BaseService<TituloDTO> {
+public class TituloService implements BaseService<TituloDTO> {
 
     private static final String MSG_TITULO_INEXISTENTE = "Não foi possível obter o Titulo. ID não está presente.";
     private static final String TITULO = "Título";
 
     private final TituloRepository tituloRepository;
     private final TituloMapper tituloMapper;
+    private final TituloDropdownMapper tituloDropdownMapper;
+
     private final CategoriaMapper categoriaMapper;
     private final CategoriaRepository categoriaRepository;
-    private final TituloDropdownMapper tituloDropdownMapper;
-    private final ItemRepository itemRepository;
-    private final AtorRepository atorRepository;
+
+    private final ItemService itemService;
+    private final AtorService atorService;
 
     @Override
     @Transactional
@@ -55,10 +55,9 @@ public class TituloServicoImpl implements BaseService<TituloDTO> {
         Titulo titulo = tituloRepository.findById(id).orElseThrow(() ->
             new BadRequestAlertException(MSG_TITULO_INEXISTENTE, ENTITY_NAME, "id"));
 
-        if(!itemRepository.findAllByTituloId(titulo.getId()).isEmpty()) {
+        if(!itemService.validarVinculoTitulo(titulo.getId())) {
             throw new BadRequestAlertException("O Título selecionado está vinculado a um Item.", ENTITY_NAME, TITULO);
         }
-
         tituloRepository.delete(titulo);
     }
 
@@ -78,9 +77,14 @@ public class TituloServicoImpl implements BaseService<TituloDTO> {
     }
 
     private void vincularAtoresTitulo(Titulo titulo) {
-        titulo.getListaAtores().forEach(ator -> {
-            ator.setTitulo(titulo);
-            ator.setAtor(atorRepository.getOne(ator.getAtor().getId()));
-        });
+        atorService.vincularAtoresTitulo(titulo);
+    }
+
+    public boolean validarVinculoDiretor(Long id) {
+        return (tituloRepository.findAllByDiretorId(id).isEmpty());
+    }
+
+    public boolean validarVinculoClasse(Long id) {
+        return (tituloRepository.findAllByClasseId(id).isEmpty());
     }
 }

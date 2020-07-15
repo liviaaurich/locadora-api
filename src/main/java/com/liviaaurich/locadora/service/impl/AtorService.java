@@ -1,6 +1,7 @@
 package com.liviaaurich.locadora.service.impl;
 
 import com.liviaaurich.locadora.domain.Ator;
+import com.liviaaurich.locadora.domain.Titulo;
 import com.liviaaurich.locadora.repository.AtorRepository;
 import com.liviaaurich.locadora.repository.RelAtorTituloRepository;
 import com.liviaaurich.locadora.service.BaseService;
@@ -23,7 +24,7 @@ import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class AtorServicoImpl implements BaseService<AtorDTO> {
+public class AtorService implements BaseService<AtorDTO> {
 
     private static final String MSG_ATOR_INEXISTENTE = "Não foi possível obter o Ator. ID não está presente.";
     private static final String ATOR = "Ator";
@@ -63,5 +64,12 @@ public class AtorServicoImpl implements BaseService<AtorDTO> {
     @Override
     public List<DropdownDTO> obterDropdown() {
         return atorRepository.findAll().stream().map(atorDropDownMapper::toDto).collect(Collectors.toList());
+    }
+
+    public void vincularAtoresTitulo(Titulo titulo) {
+        titulo.getListaAtores().forEach(ator -> {
+            ator.setTitulo(titulo);
+            ator.setAtor(atorRepository.getOne(ator.getAtor().getId()));
+        });
     }
 }

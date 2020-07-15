@@ -31,7 +31,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/titulos")
 @RequiredArgsConstructor
-public class TituloRecurso {
+public class TituloResource {
 
     private static final String API_TITULO = "/titulos";
 

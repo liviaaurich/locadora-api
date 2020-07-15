@@ -1,9 +1,7 @@
 package com.liviaaurich.locadora.web.rest;
 
 import com.liviaaurich.locadora.service.BaseService;
-import com.liviaaurich.locadora.service.ClienteService;
-import com.liviaaurich.locadora.service.dto.ClienteDTO;
-import com.liviaaurich.locadora.service.dto.DependenteDTO;
+import com.liviaaurich.locadora.service.dto.SocioDTO;
 import com.liviaaurich.locadora.service.dto.dropdown.DropdownDTO;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -30,24 +28,22 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/dependentes")
+@RequestMapping("/api/v1/socios")
 @RequiredArgsConstructor
-public class DependenteRecurso {
+public class SocioResource {
 
-    private static final String API_TITULO = "/dependentes";
+    private static final String API_SOCIO = "/socios";
 
-    private static final String ENTITY_NAME = "dependente";
+    private static final String ENTITY_NAME = "sócio";
 
-    private final BaseService<DependenteDTO> baseService;
-
-    private final ClienteService clienteService;
+    private final BaseService<SocioDTO> baseService;
 
     @PostMapping
     @Timed
-    public ResponseEntity<DependenteDTO> salvar(@Valid @RequestBody DependenteDTO dependenteDTO) throws URISyntaxException {
-        DependenteDTO result = baseService.salvar(dependenteDTO);
+    public ResponseEntity<SocioDTO> salvar(@Valid @RequestBody SocioDTO socioDTO) throws URISyntaxException {
+        SocioDTO result = baseService.salvar(socioDTO);
 
-        return ResponseEntity.created(new URI(API_TITULO + result.getId()))
+        return ResponseEntity.created(new URI(API_SOCIO + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(null, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
@@ -59,21 +55,13 @@ public class DependenteRecurso {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(null, false, ENTITY_NAME, id.toString())).build();
     }
 
-    @GetMapping("/socio/{id}")
+    @GetMapping
     @Timed
-    public ResponseEntity<Page<DependenteDTO>> obterTodosPorSocio(@ModelAttribute DependenteDTO filtro, Pageable pageable, @PathVariable Long id) {
-        Page<DependenteDTO> page = this.clienteService.obterTodosBySocio(filtro, pageable, id);
+    public ResponseEntity<Page<SocioDTO>> obterTodos(@ModelAttribute SocioDTO filtro, Pageable pageable) {
+        Page<SocioDTO> page = this.baseService.obterTodos(filtro, pageable);
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(UriComponentsBuilder.newInstance(), page);
         return new ResponseEntity<>(page, headers, HttpStatus.OK);
-    }
-
-    @GetMapping("/clientes/")
-    @Timed
-    public ResponseEntity<List<ClienteDTO>> obterTodosClientes() {
-        List<ClienteDTO> result = this.clienteService.obterTodosClientes();
-
-        return new ResponseEntity<>(result, null, HttpStatus.OK);
     }
 
     @GetMapping("/dropdown/")

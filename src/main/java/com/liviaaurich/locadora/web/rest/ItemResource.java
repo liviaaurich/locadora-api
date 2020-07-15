@@ -1,10 +1,13 @@
 package com.liviaaurich.locadora.web.rest;
 
 import com.liviaaurich.locadora.service.BaseService;
+import com.liviaaurich.locadora.service.dto.ClasseDTO;
 import com.liviaaurich.locadora.service.dto.ItemDTO;
 import com.liviaaurich.locadora.service.dto.dropdown.DropdownDTO;
+import com.liviaaurich.locadora.service.impl.ItemService;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
+import io.github.jhipster.web.util.ResponseUtil;
 import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,17 +29,20 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/itens")
 @RequiredArgsConstructor
-public class ItemRecurso {
+public class ItemResource {
 
     private static final String API_ITEM = "/itens";
 
     private static final String ENTITY_NAME = "item";
 
     private final BaseService<ItemDTO> baseService;
+
+    private final ItemService itemService;
 
     @PostMapping
     @Timed
@@ -69,5 +75,13 @@ public class ItemRecurso {
     public ResponseEntity<List<DropdownDTO>> obterTitulosDropdown() {
         List<DropdownDTO> result = baseService.obterDropdown();
         return new ResponseEntity<>(result, null, HttpStatus.OK);
+    }
+
+    @GetMapping("/{idItem}/classe")
+    @Timed
+    public ResponseEntity<ClasseDTO> obterClassePorItem(@PathVariable Long idItem) {
+        ClasseDTO classeDTO = this.itemService.obterClasseByItem(idItem);
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(classeDTO));
     }
 }

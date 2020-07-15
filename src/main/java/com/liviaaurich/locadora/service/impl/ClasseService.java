@@ -2,7 +2,6 @@ package com.liviaaurich.locadora.service.impl;
 
 import com.liviaaurich.locadora.domain.Classe;
 import com.liviaaurich.locadora.repository.ClasseRepository;
-import com.liviaaurich.locadora.repository.TituloRepository;
 import com.liviaaurich.locadora.service.BaseService;
 import com.liviaaurich.locadora.service.dto.ClasseDTO;
 import com.liviaaurich.locadora.service.dto.dropdown.DropdownDTO;
@@ -23,7 +22,7 @@ import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class ClasseServicoImpl implements BaseService<ClasseDTO> {
+public class ClasseService implements BaseService<ClasseDTO> {
 
     private static final String MSG_CLASSE_INEXISTENTE = "Não foi possível obter a Classe. ID não está presente.";
     private static final String CLASSE = "Classe";
@@ -31,7 +30,8 @@ public class ClasseServicoImpl implements BaseService<ClasseDTO> {
     private final ClasseRepository classeRepository;
     private final ClasseMapper classeMapper;
     private final ClasseDropdownMapper classeDropdownMapper;
-    private final TituloRepository tituloRepository;
+
+    private final TituloService tituloService;
 
     @Override
     public ClasseDTO salvar(ClasseDTO classeDTO) {
@@ -47,7 +47,7 @@ public class ClasseServicoImpl implements BaseService<ClasseDTO> {
         Classe classe = classeRepository.findById(id).orElseThrow(() ->
             new BadRequestAlertException(MSG_CLASSE_INEXISTENTE, ENTITY_NAME, "id"));
 
-        if(!tituloRepository.findAllByDiretorId(classe.getId()).isEmpty()) {
+        if(!tituloService.validarVinculoClasse(classe.getId())) {
             throw new BadRequestAlertException("A Classe selecionada está vinculada a um Título.", ENTITY_NAME, CLASSE);
         }
 

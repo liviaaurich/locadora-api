@@ -22,8 +22,8 @@ import java.util.List;
 public class Socio extends Cliente {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SOCIO")
-    @SequenceGenerator(name = "SEQ_SOCIO", allocationSize = 1, sequenceName = "SEQ_SOCIO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CLIENTE")
+    @SequenceGenerator(name = "SEQ_CLIENTE", allocationSize = 1, sequenceName = "SEQ_CLIENTE")
     @Column(name = "ID")
     private Long id;
 

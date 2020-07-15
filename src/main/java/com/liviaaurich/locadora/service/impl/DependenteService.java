@@ -2,14 +2,11 @@ package com.liviaaurich.locadora.service.impl;
 
 import com.liviaaurich.locadora.domain.Dependente;
 import com.liviaaurich.locadora.repository.DependenteRepository;
-import com.liviaaurich.locadora.repository.SocioRepository;
 import com.liviaaurich.locadora.service.BaseService;
-import com.liviaaurich.locadora.service.ClienteService;
 import com.liviaaurich.locadora.service.dto.ClienteDTO;
 import com.liviaaurich.locadora.service.dto.DependenteDTO;
 import com.liviaaurich.locadora.service.dto.dropdown.DropdownDTO;
 import com.liviaaurich.locadora.service.mapper.ClienteDependenteMapper;
-import com.liviaaurich.locadora.service.mapper.ClienteSocioMapper;
 import com.liviaaurich.locadora.service.mapper.DependenteMapper;
 import com.liviaaurich.locadora.web.rest.errors.BadRequestAlertException;
 import lombok.RequiredArgsConstructor;
@@ -26,16 +23,18 @@ import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class DependenteServicoImpl implements BaseService<DependenteDTO>, ClienteService {
+public class DependenteService implements BaseService<DependenteDTO> {
 
     private static final String MSG_DEPENDENTE_INEXISTENTE = "Não foi possível obter o Dependente. ID não está presente.";
     private static final String DEPENDENTE = "Dependente";
 
     private final DependenteRepository dependenteRepository;
-    private final SocioRepository socioRepository;
     private final DependenteMapper dependenteMapper;
+
+    private final SocioService socioService;
+    private final LocacaoService locacaoService;
+
     private final ClienteDependenteMapper clienteDependenteMapper;
-    private final ClienteSocioMapper clienteSocioMapper;
 
     @Override
     public DependenteDTO salvar(DependenteDTO dependenteDTO) {
@@ -57,6 +56,9 @@ public class DependenteServicoImpl implements BaseService<DependenteDTO>, Client
         Dependente dependente = dependenteRepository.findById(id).orElseThrow(() ->
             new BadRequestAlertException(MSG_DEPENDENTE_INEXISTENTE, ENTITY_NAME, "id"));
 
+        if(!locacaoService.validarVinculoDependente(dependente.getId())) {
+            throw new BadRequestAlertException("O Dependente selecionado está vinculado a uma Locação.", ENTITY_NAME, DEPENDENTE);
+        }
         dependenteRepository.delete(dependente);
     }
 
@@ -70,16 +72,17 @@ public class DependenteServicoImpl implements BaseService<DependenteDTO>, Client
         return null;
     }
 
-    @Override
+
     public Page<DependenteDTO> obterTodosBySocio(DependenteDTO dto, Pageable pageable, Long idSocio) {
         return dependenteRepository.findAllBySocioId(idSocio, pageable).map(dependenteMapper::toDto);
     }
 
-    @Override
-    public List<ClienteDTO> obterTodosClientes() {
-        List<ClienteDTO> listaClientes = socioRepository.findAll().stream().map(clienteSocioMapper::toDto).collect(Collectors.toList());
-        listaClientes.addAll(dependenteRepository.findAll().stream().map(clienteDependenteMapper::toDto).collect(Collectors.toList()));
 
+    public List<ClienteDTO> obterTodosClientes() {
+        List<ClienteDTO> listaClientes = socioService.obterClientes();
+        listaClientes.forEach(cli -> cli.setIsSocio(true));
+
+        listaClientes.addAll(dependenteRepository.findAll().stream().map(clienteDependenteMapper::toDto).collect(Collectors.toList()));
         return listaClientes;
     }
 

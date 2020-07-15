@@ -1,7 +1,7 @@
 package com.liviaaurich.locadora.web.rest;
 
 import com.liviaaurich.locadora.service.BaseService;
-import com.liviaaurich.locadora.service.dto.DiretorDTO;
+import com.liviaaurich.locadora.service.dto.ClasseDTO;
 import com.liviaaurich.locadora.service.dto.dropdown.DropdownDTO;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.micrometer.core.annotation.Timed;
@@ -25,24 +25,24 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/diretores")
+@RequestMapping("/api/v1/classes")
 @RequiredArgsConstructor
-public class DiretorRecurso {
+public class ClasseResource {
 
-    private static final String API_DIRETOR = "/diretores";
+    private static final String API_CLASSE = "/classes";
 
-    private static final String ENTITY_NAME = "diretor";
+    private static final String ENTITY_NAME = "classe";
 
     private static final String APP_NAME = "LocadoraPassaTempo";
 
-    private final BaseService<DiretorDTO> diretorServico;
+    private final BaseService<ClasseDTO> classeServico;
 
     @PostMapping
     @Timed
-    public ResponseEntity<DiretorDTO> salvar(@Valid @RequestBody DiretorDTO diretorDTO) throws URISyntaxException {
-        DiretorDTO result = diretorServico.salvar(diretorDTO);
+    public ResponseEntity<ClasseDTO> salvar(@Valid @RequestBody ClasseDTO classeDTO) throws URISyntaxException {
+        ClasseDTO result = classeServico.salvar(classeDTO);
 
-        return ResponseEntity.created(new URI(API_DIRETOR + result.getId()))
+        return ResponseEntity.created(new URI(API_CLASSE + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(APP_NAME, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
@@ -50,22 +50,22 @@ public class DiretorRecurso {
     @DeleteMapping("/{id}")
     @Timed
     public ResponseEntity excluir(@PathVariable Long id) {
-        diretorServico.excluir(id);
+        classeServico.excluir(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(APP_NAME, false, ENTITY_NAME, id.toString())).build();
     }
 
     @GetMapping
     @Timed
-    public ResponseEntity<Page<DiretorDTO>> obterTodos(@ModelAttribute DiretorDTO filtro, Pageable pageable) {
-        Page<DiretorDTO> page = this.diretorServico.obterTodos(filtro, pageable);
+    public ResponseEntity<Page<ClasseDTO>> obterTodos(@ModelAttribute ClasseDTO filtro, Pageable pageable) {
+        Page<ClasseDTO> page = this.classeServico.obterTodos(filtro, pageable);
 
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     @GetMapping("/dropdown/")
     @Timed
-    public ResponseEntity<List<DropdownDTO>> obterDiretoresDropdown() {
-        List<DropdownDTO> result = diretorServico.obterDropdown();
+    public ResponseEntity<List<DropdownDTO>> obterClassesDropdown() {
+        List<DropdownDTO> result = classeServico.obterDropdown();
         return new ResponseEntity<>(result, null, HttpStatus.OK);
     }
 }

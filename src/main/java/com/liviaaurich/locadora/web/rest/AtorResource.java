@@ -1,7 +1,7 @@
 package com.liviaaurich.locadora.web.rest;
 
 import com.liviaaurich.locadora.service.BaseService;
-import com.liviaaurich.locadora.service.dto.ClasseDTO;
+import com.liviaaurich.locadora.service.dto.AtorDTO;
 import com.liviaaurich.locadora.service.dto.dropdown.DropdownDTO;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.micrometer.core.annotation.Timed;
@@ -25,24 +25,24 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/classes")
+@RequestMapping("/api/v1/atores")
 @RequiredArgsConstructor
-public class ClasseRecurso {
+public class AtorResource {
 
-    private static final String API_CLASSE = "/classes";
+    private static final String API_ATOR = "/atores";
 
-    private static final String ENTITY_NAME = "classe";
+    private static final String ENTITY_NAME = "ator";
 
     private static final String APP_NAME = "LocadoraPassaTempo";
 
-    private final BaseService<ClasseDTO> classeServico;
+    private final BaseService<AtorDTO> atorServico;
 
     @PostMapping
     @Timed
-    public ResponseEntity<ClasseDTO> salvar(@Valid @RequestBody ClasseDTO classeDTO) throws URISyntaxException {
-        ClasseDTO result = classeServico.salvar(classeDTO);
+    public ResponseEntity<AtorDTO> salvar(@Valid @RequestBody AtorDTO atorDTO) throws URISyntaxException {
+        AtorDTO result = atorServico.salvar(atorDTO);
 
-        return ResponseEntity.created(new URI(API_CLASSE + result.getId()))
+        return ResponseEntity.created(new URI(API_ATOR + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(APP_NAME, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
@@ -50,22 +50,23 @@ public class ClasseRecurso {
     @DeleteMapping("/{id}")
     @Timed
     public ResponseEntity excluir(@PathVariable Long id) {
-        classeServico.excluir(id);
+        atorServico.excluir(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(APP_NAME, false, ENTITY_NAME, id.toString())).build();
     }
 
     @GetMapping
     @Timed
-    public ResponseEntity<Page<ClasseDTO>> obterTodos(@ModelAttribute ClasseDTO filtro, Pageable pageable) {
-        Page<ClasseDTO> page = this.classeServico.obterTodos(filtro, pageable);
+    public ResponseEntity<Page<AtorDTO>> obterTodos(@ModelAttribute AtorDTO filtro, Pageable pageable) {
+        Page<AtorDTO> page = this.atorServico.obterTodos(filtro, pageable);
 
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     @GetMapping("/dropdown/")
     @Timed
-    public ResponseEntity<List<DropdownDTO>> obterClassesDropdown() {
-        List<DropdownDTO> result = classeServico.obterDropdown();
+    public ResponseEntity<List<DropdownDTO>> obterAtoresDropdown() {
+        List<DropdownDTO> result = atorServico.obterDropdown();
         return new ResponseEntity<>(result, null, HttpStatus.OK);
     }
+
 }

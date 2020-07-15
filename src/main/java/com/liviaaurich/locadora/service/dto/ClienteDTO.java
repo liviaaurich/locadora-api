@@ -15,6 +15,7 @@ public class ClienteDTO implements Serializable {
     private Long id;
     private String nome;
     private Boolean status;
+    private Boolean isSocio = false;
 
     /**
      * {@inheritDoc}

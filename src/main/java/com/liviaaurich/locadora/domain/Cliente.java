@@ -23,6 +23,6 @@ public abstract class Cliente implements Serializable {
     @Column(name = "SEXO")
     private String sexo;
 
-    @Column(name = "STATUS")
+    @Column(name = "SITUACAO")
     private Boolean status;
 }

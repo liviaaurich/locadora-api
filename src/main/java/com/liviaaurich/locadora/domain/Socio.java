@@ -19,7 +19,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "TB_SOCIO")
-public class Socio extends Cliente{
+public class Socio extends Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SOCIO")

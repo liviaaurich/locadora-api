@@ -32,7 +32,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SocioRecurso {
 
-    private static final String API_TITULO = "/socios";
+    private static final String API_SOCIO = "/socios";
 
     private static final String ENTITY_NAME = "sócio";
 
@@ -43,7 +43,7 @@ public class SocioRecurso {
     public ResponseEntity<SocioDTO> salvar(@Valid @RequestBody SocioDTO socioDTO) throws URISyntaxException {
         SocioDTO result = baseService.salvar(socioDTO);
 
-        return ResponseEntity.created(new URI(API_TITULO + result.getId()))
+        return ResponseEntity.created(new URI(API_SOCIO + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(null, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }

@@ -4,7 +4,6 @@ import com.liviaaurich.locadora.domain.Socio;
 import com.liviaaurich.locadora.repository.SocioRepository;
 import com.liviaaurich.locadora.service.BaseService;
 import com.liviaaurich.locadora.service.dto.SocioDTO;
-import com.liviaaurich.locadora.service.dto.dropdown.DropdownDTO;
 import com.liviaaurich.locadora.service.mapper.SocioMapper;
 import com.liviaaurich.locadora.web.rest.errors.BadRequestAlertException;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
 
@@ -32,7 +29,9 @@ public class SocioServicoImpl implements BaseService<SocioDTO> {
     @Override
     public SocioDTO salvar(SocioDTO socioDTO) {
         Socio socio = socioMapper.toEntity(socioDTO);
-
+        if(socio.getId() == null) {
+            socio.setStatus(true);
+        }
         socioRepository.save(socio);
 
         return socioMapper.toDto(socio);
@@ -49,10 +48,5 @@ public class SocioServicoImpl implements BaseService<SocioDTO> {
     @Override
     public Page<SocioDTO> obterTodos(SocioDTO dto, Pageable pageable) {
         return socioRepository.findAll(pageable).map(socioMapper::toDto);
-    }
-
-    @Override
-    public List<DropdownDTO> obterDropdown() {
-        return null;
     }
 }

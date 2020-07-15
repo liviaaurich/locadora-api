@@ -12,7 +12,7 @@
     <property name="now" value="sysdate" dbms="postgree"/>
 
     <changeSet id="00000000000008" author="livia.aurich">
-        <createSequence cacheSize="20" cycle="false" incrementBy="1" sequenceName="SEQ_CLASSE" startValue="1"/>
+        <createSequence cacheSize="20" cycle="false" incrementBy="1" sequenceName="SEQ_SOCIO" startValue="1"/>
         <createSequence cacheSize="20" cycle="false" incrementBy="1" sequenceName="SEQ_DEPENDENTE" startValue="1"/>
         <createSequence cacheSize="20" cycle="false" incrementBy="1" sequenceName="SEQ_LOCACAO" startValue="1"/>
     </changeSet>

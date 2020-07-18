@@ -24,5 +24,8 @@ public interface LocacaoMapper extends EntityMapper<LocacaoDTO, Locacao> {
     @Mapping(target = "idItem", source = "item.id")
     @Mapping(target = "idSocio", source = "socio.id")
     @Mapping(target = "idDependente", source = "dependente.id")
+    @Mapping(target = "descricaoItem", source = "item.numeroSerie")
+    @Mapping(target = "descricaoSocio", source = "socio.nome")
+    @Mapping(target = "descricaoDependente", source = "dependente.nome")
     LocacaoDTO toDto(Locacao locacao);
 }

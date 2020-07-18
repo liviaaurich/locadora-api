@@ -48,12 +48,16 @@ public class LocacaoService implements BaseService<LocacaoDTO> {
 
     @Override
     public void excluir(Long id) {
+        Locacao locacao = locacaoRepository.findById(id).orElseThrow(() ->
+            new BadRequestAlertException(MSG_LOCACAO_INEXISTENTE, ENTITY_NAME, "id"));
 
+        locacaoRepository.delete(locacao);
     }
 
     @Override
     public Page<LocacaoDTO> obterTodos(LocacaoDTO dto, Pageable pageable) {
-        return null;
+        Page<LocacaoDTO> page = locacaoRepository.findAll(pageable).map(locacaoMapper::toDto);
+        return page;
     }
 
     public boolean validarVinculoItem(Long id) {

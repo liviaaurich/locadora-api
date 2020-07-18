@@ -26,6 +26,10 @@ public class LocacaoDTO implements Serializable {
     private Long idSocio;
     private Long idDependente;
 
+    private String descricaoItem;
+    private String descricaoSocio;
+    private String descricaoDependente;
+
     /**
      * {@inheritDoc}
      */

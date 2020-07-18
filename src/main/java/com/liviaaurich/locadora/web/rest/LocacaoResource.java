@@ -1,17 +1,22 @@
 package com.liviaaurich.locadora.web.rest;
 
-import com.liviaaurich.locadora.service.dto.ClasseDTO;
+import com.liviaaurich.locadora.service.BaseService;
+import com.liviaaurich.locadora.service.dto.LocacaoDTO;
 import com.liviaaurich.locadora.service.impl.LocacaoService;
-import io.github.jhipster.web.util.ResponseUtil;
+import io.github.jhipster.web.util.HeaderUtil;
 import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
+import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 @RestController
 @RequestMapping("/api/v1/locacoes")
@@ -24,23 +29,23 @@ public class LocacaoResource {
 
     private final LocacaoService locacaoService;
 
-//    private final BaseService<LocacaoDTO> baseService;
+    private final BaseService<LocacaoDTO> baseService;
 
 
-//    @PostMapping
-//    @Timed
-//    public ResponseEntity<LocacaoDTO> salvar(@Valid @RequestBody LocacaoDTO locacaoDTO) throws URISyntaxException {
-//        LocacaoDTO result = baseService.salvar(locacaoDTO);
-//
-//        return ResponseEntity.created(new URI(API_LOCACAO + result.getId()))
-//            .headers(HeaderUtil.createEntityCreationAlert(null, false, ENTITY_NAME, result.getId().toString()))
-//            .body(result);
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    @Timed
-//    public ResponseEntity excluir(@PathVariable Long id) {
-//        baseService.excluir(id);
-//        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(null, false, ENTITY_NAME, id.toString())).build();
-//    }
+    @PostMapping
+    @Timed
+    public ResponseEntity<LocacaoDTO> salvar(@Valid @RequestBody LocacaoDTO locacaoDTO) throws URISyntaxException {
+        LocacaoDTO result = baseService.salvar(locacaoDTO);
+
+        return ResponseEntity.created(new URI(API_LOCACAO + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(null, false, ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
+
+    @DeleteMapping("/{id}")
+    @Timed
+    public ResponseEntity excluir(@PathVariable Long id) {
+        baseService.excluir(id);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(null, false, ENTITY_NAME, id.toString())).build();
+    }
 }

@@ -96,7 +96,7 @@
             </column>
 
             <column name="DATA_DEVOLUCAO_EFETIVA" type="timestamp" remarks="Data da devolucao efetiva">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
 
             <column name="VALOR_COBRADO" type="NUMBER(5, 2)" remarks="Valor cobrado">
@@ -108,11 +108,11 @@
             </column>
 
             <column name="ID_SOCIO" type="NUMBER(19, 0)">
-                <constraints nullable="false" foreignKeyName="FK_TB_LOCACAO_TB_SOCIO" references="TB_SOCIO(ID)"/>
+                <constraints nullable="true" foreignKeyName="FK_TB_LOCACAO_TB_SOCIO" references="TB_SOCIO(ID)"/>
             </column>
 
             <column name="ID_DEPENDENTE" type="NUMBER(19, 0)">
-                <constraints nullable="false" foreignKeyName="FK_TB_LOCACAO_TB_DEPENDENTE" references="TB_DEPENDENTE(ID)"/>
+                <constraints nullable="true" foreignKeyName="FK_TB_LOCACAO_TB_DEPENDENTE" references="TB_DEPENDENTE(ID)"/>
             </column>
         </createTable>
     </changeSet>

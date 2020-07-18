@@ -20,8 +20,8 @@ import javax.persistence.Table;
 public class Dependente extends Cliente {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CLIENTE")
-    @SequenceGenerator(name = "SEQ_CLIENTE", allocationSize = 1, sequenceName = "SEQ_CLIENTE")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_DEPENDENTE")
+    @SequenceGenerator(name = "SEQ_DEPENDENTE", allocationSize = 1, sequenceName = "SEQ_DEPENDENTE")
     @Column(name = "ID")
     private Long id;
 

@@ -3,7 +3,6 @@ package com.liviaaurich.locadora.service.impl;
 import com.liviaaurich.locadora.domain.Locacao;
 import com.liviaaurich.locadora.repository.LocacaoRepository;
 import com.liviaaurich.locadora.service.BaseService;
-import com.liviaaurich.locadora.service.dto.ClasseDTO;
 import com.liviaaurich.locadora.service.dto.LocacaoDTO;
 import com.liviaaurich.locadora.service.mapper.LocacaoMapper;
 import com.liviaaurich.locadora.web.rest.errors.BadRequestAlertException;
@@ -36,10 +35,14 @@ public class LocacaoService implements BaseService<LocacaoDTO> {
         Locacao locacao = locacaoMapper.toEntity(locacaoDTO);
         locacao.setDtLocacao(LocalDateTime.now());
 
+        if(locacao.getSocio().getId() == null) {
+            locacao.setSocio(null);
+        } else {
+            locacao.setDependente(null);
+        }
         verificarDisponibilidadeItem(locacao);
 
-        locacaoRepository.save(locacao);
-
+        locacaoRepository.saveAndFlush(locacao);
         return locacaoMapper.toDto(locacao);
     }
 

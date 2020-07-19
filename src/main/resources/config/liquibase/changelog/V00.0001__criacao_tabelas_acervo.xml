@@ -50,7 +50,7 @@
                 <column name="VALOR" remarks="Valor da classe." type="DECIMAL(5, 2)">
                     <constraints nullable="false"/>
                 </column>
-                <column name="PRAZO_DEVOLUCAO" remarks="Prazo de devolução da classe." type="DATE">
+                <column name="PRAZO_DEVOLUCAO" remarks="Prazo de devolução da classe." type="NUMBER(4)">
                     <constraints nullable="false"/>
                 </column>
             </createTable>

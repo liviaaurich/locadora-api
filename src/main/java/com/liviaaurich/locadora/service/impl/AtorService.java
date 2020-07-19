@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
@@ -48,7 +49,7 @@ public class AtorService implements BaseService<AtorDTO> {
         Ator ator = atorRepository.findById(id).orElseThrow(() ->
             new BadRequestAlertException(MSG_ATOR_INEXISTENTE, ENTITY_NAME, "id"));
 
-        if(!relAtorTituloRepository.findAllByIdIdAtor(ator.getId()).isEmpty()) {
+        if(relAtorTituloRepository.existsByIdIdAtor(ator.getId())) {
             throw new BadRequestAlertException("O Ator selecionado está vinculado a um Título.", ENTITY_NAME, ATOR);
         }
 
@@ -59,6 +60,12 @@ public class AtorService implements BaseService<AtorDTO> {
     @Transactional(readOnly = true)
     public Page<AtorDTO> obterTodos(AtorDTO filtro, Pageable pageable) {
         return atorRepository.findByFilter(filtro, pageable);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<AtorDTO> obterPorId(Long id) {
+        return Optional.empty();
     }
 
     @Override

@@ -21,6 +21,7 @@ public class LocacaoDTO implements Serializable {
     private LocalDateTime dtDevolucaoEfetiva;
 
     private Double valorCobrado;
+    private Double multaCobrada;
 
     private Long idItem;
     private Long idSocio;

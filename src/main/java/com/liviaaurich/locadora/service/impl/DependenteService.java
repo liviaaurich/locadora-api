@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
@@ -56,7 +57,7 @@ public class DependenteService implements BaseService<DependenteDTO> {
         Dependente dependente = dependenteRepository.findById(id).orElseThrow(() ->
             new BadRequestAlertException(MSG_DEPENDENTE_INEXISTENTE, ENTITY_NAME, "id"));
 
-        if(!locacaoService.validarVinculoDependente(dependente.getId())) {
+        if(locacaoService.validarVinculoDependente(dependente.getId())) {
             throw new BadRequestAlertException("O Dependente selecionado está vinculado a uma Locação.", ENTITY_NAME, DEPENDENTE);
         }
         dependenteRepository.delete(dependente);
@@ -65,6 +66,12 @@ public class DependenteService implements BaseService<DependenteDTO> {
     @Override
     public Page<DependenteDTO> obterTodos(DependenteDTO dto, Pageable pageable) {
         return dependenteRepository.findAll(pageable).map(dependenteMapper::toDto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<DependenteDTO> obterPorId(Long id) {
+        return Optional.empty();
     }
 
     @Override

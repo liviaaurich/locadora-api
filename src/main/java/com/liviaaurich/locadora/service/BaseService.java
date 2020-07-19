@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BaseService<T> {
 
@@ -15,6 +16,8 @@ public interface BaseService<T> {
     void excluir(Long id);
 
     Page<T> obterTodos(T dto, Pageable pageable);
+
+    Optional<T> obterPorId(Long id);
 
     default List<DropdownDTO> obterDropdown(){
         throw new NotImplementedException();

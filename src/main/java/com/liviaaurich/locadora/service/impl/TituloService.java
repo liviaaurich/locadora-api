@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
@@ -55,7 +56,7 @@ public class TituloService implements BaseService<TituloDTO> {
         Titulo titulo = tituloRepository.findById(id).orElseThrow(() ->
             new BadRequestAlertException(MSG_TITULO_INEXISTENTE, ENTITY_NAME, "id"));
 
-        if(!itemService.validarVinculoTitulo(titulo.getId())) {
+        if(itemService.validarVinculoTitulo(titulo.getId())) {
             throw new BadRequestAlertException("O Título selecionado está vinculado a um Item.", ENTITY_NAME, TITULO);
         }
         tituloRepository.delete(titulo);
@@ -64,6 +65,12 @@ public class TituloService implements BaseService<TituloDTO> {
     @Override
     public Page<TituloDTO> obterTodos(TituloDTO dto, Pageable pageable) {
         return tituloRepository.findAll(pageable).map(tituloMapper::toDto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<TituloDTO> obterPorId(Long id) {
+        return Optional.empty();
     }
 
     @Override
@@ -81,10 +88,10 @@ public class TituloService implements BaseService<TituloDTO> {
     }
 
     public boolean validarVinculoDiretor(Long id) {
-        return (tituloRepository.findAllByDiretorId(id).isEmpty());
+        return (tituloRepository.existsByDiretorId(id));
     }
 
     public boolean validarVinculoClasse(Long id) {
-        return (tituloRepository.findAllByClasseId(id).isEmpty());
+        return (tituloRepository.existsByClasseId(id));
     }
 }

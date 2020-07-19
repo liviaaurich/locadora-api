@@ -20,7 +20,7 @@ public class ClasseDTO implements Serializable {
     private Long id;
     private String nome;
     private Double valor;
-    private LocalDate prazoDevolucao;
+    private Long prazoDevolucao;
 
     /**
      * {@inheritDoc}

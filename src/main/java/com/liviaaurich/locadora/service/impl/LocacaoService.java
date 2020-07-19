@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -60,16 +61,26 @@ public class LocacaoService implements BaseService<LocacaoDTO> {
         return page;
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<LocacaoDTO> obterPorId(Long id) {
+        return locacaoRepository.findById(id).map(locacaoMapper::toDto);
+    }
+
     public boolean validarVinculoItem(Long id) {
-        return (locacaoRepository.findAllByItemId(id).isEmpty());
+        return (locacaoRepository.existsByItemId(id));
     }
 
     public boolean validarVinculoSocio(Long id) {
-        return (locacaoRepository.findAllBySocioId(id).isEmpty());
+        return (locacaoRepository.existsBySocioId(id));
     }
 
     public boolean validarVinculoDependente(Long id) {
-        return (locacaoRepository.findAllByDependenteId(id).isEmpty());
+        return (locacaoRepository.existsByDependenteId(id));
+    }
+
+    public boolean validarVinculoSocioDependente(Long id) {
+        return (locacaoRepository.existsByDependenteSocioId(id));
     }
 
     public void verificarDisponibilidadeItem(Locacao locacao) {
@@ -77,8 +88,12 @@ public class LocacaoService implements BaseService<LocacaoDTO> {
         if(!locacoesBanco.isEmpty()) {
             Optional<Locacao> locacaoOptional = locacoesBanco.stream().max(Comparator.comparing(Locacao::getDtDevolucaoPrevista));
             locacaoOptional.ifPresent(loc -> {
-                throw new BadRequestAlertException("Item não disponível. Data provável de disponibilidade: " + loc.getDtDevolucaoPrevista().plusDays(1L), ENTITY_NAME, LOCACAO);
+                throw new BadRequestAlertException("Item não disponível. Data provável de disponibilidade: " + obterDataFormatada(loc.getDtDevolucaoPrevista().plusDays(1L)), ENTITY_NAME, LOCACAO);
             });
         }
+    }
+
+    public String obterDataFormatada(LocalDateTime data) {
+        return data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 }

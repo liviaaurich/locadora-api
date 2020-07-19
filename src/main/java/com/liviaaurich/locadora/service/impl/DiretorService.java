@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
@@ -47,7 +48,7 @@ public class DiretorService implements BaseService<DiretorDTO> {
         Diretor diretor = diretorRepository.findById(id).orElseThrow(() ->
             new BadRequestAlertException(MSG_DIRETOR_INEXISTENTE, ENTITY_NAME, "id"));
 
-        if(!tituloService.validarVinculoDiretor(diretor.getId())) {
+        if(tituloService.validarVinculoDiretor(diretor.getId())) {
             throw new BadRequestAlertException("O Diretor selecionado está vinculado a um Título.", ENTITY_NAME, DIRETOR);
         }
         diretorRepository.delete(diretor);
@@ -57,6 +58,12 @@ public class DiretorService implements BaseService<DiretorDTO> {
     @Transactional(readOnly = true)
     public Page<DiretorDTO> obterTodos(DiretorDTO filtro, Pageable pageable) {
         return diretorRepository.findByFilter(filtro, pageable);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<DiretorDTO> obterPorId(Long id) {
+        return Optional.empty();
     }
 
     @Override

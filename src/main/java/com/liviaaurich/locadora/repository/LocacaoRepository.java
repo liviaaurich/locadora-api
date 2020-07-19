@@ -11,9 +11,11 @@ import java.util.List;
 public interface LocacaoRepository extends JpaRepository<Locacao, Long> {
     List<Locacao> findByItemIdAndDtDevolucaoPrevistaAfter(Long id, LocalDateTime dataLocacao);
 
-    List<Locacao> findAllByItemId(Long id);
+    Boolean existsByItemId(Long id);
 
-    List<Locacao> findAllBySocioId(Long id);
+    Boolean existsBySocioId(Long id);
 
-    List<Locacao> findAllByDependenteId(Long id);
+    Boolean existsByDependenteId(Long id);
+
+    Boolean existsByDependenteSocioId(Long id);
 }

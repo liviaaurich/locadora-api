@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
@@ -49,12 +50,20 @@ public class SocioService implements BaseService<SocioDTO> {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Optional<SocioDTO> obterPorId(Long id) {
+        return Optional.empty();
+    }
+
+    @Override
     public void excluir(Long id) {
         Socio socio = socioRepository.findById(id).orElseThrow(() ->
             new BadRequestAlertException(MSG_SOCIO_INEXISTENTE, ENTITY_NAME, "id"));
 
-        if(!locacaoService.validarVinculoSocio(socio.getId())) {
+        if(locacaoService.validarVinculoSocio(socio.getId())) {
             throw new BadRequestAlertException("O Sócio selecionado está vinculado a uma Locação.", ENTITY_NAME, SOCIO);
+        } else if (locacaoService.validarVinculoSocioDependente(socio.getId())) {
+            throw new BadRequestAlertException("O Sócio selecionado possui dependete(s) vinculado(s) a uma Locação.", ENTITY_NAME, SOCIO);
         }
         socioRepository.delete(socio);
     }

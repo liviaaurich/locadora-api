@@ -5,6 +5,7 @@ import com.liviaaurich.locadora.service.dto.LocacaoDTO;
 import com.liviaaurich.locadora.service.impl.LocacaoService;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
+import io.github.jhipster.web.util.ResponseUtil;
 import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/locacoes")
@@ -48,6 +50,12 @@ public class LocacaoResource {
         return ResponseEntity.created(new URI(API_LOCACAO + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(null, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<LocacaoDTO> obterPorId(@PathVariable Long id) {
+        Optional<LocacaoDTO> locacaoDTO = baseService.obterPorId(id);
+        return ResponseUtil.wrapOrNotFound(locacaoDTO);
     }
 
     @GetMapping

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
@@ -47,7 +48,7 @@ public class ClasseService implements BaseService<ClasseDTO> {
         Classe classe = classeRepository.findById(id).orElseThrow(() ->
             new BadRequestAlertException(MSG_CLASSE_INEXISTENTE, ENTITY_NAME, "id"));
 
-        if(!tituloService.validarVinculoClasse(classe.getId())) {
+        if(tituloService.validarVinculoClasse(classe.getId())) {
             throw new BadRequestAlertException("A Classe selecionada está vinculada a um Título.", ENTITY_NAME, CLASSE);
         }
 
@@ -58,6 +59,12 @@ public class ClasseService implements BaseService<ClasseDTO> {
     @Transactional(readOnly = true)
     public Page<ClasseDTO> obterTodos(ClasseDTO filtro, Pageable pageable) {
         return classeRepository.findByFilter(filtro, pageable);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<ClasseDTO> obterPorId(Long id) {
+        return Optional.empty();
     }
 
     @Override

@@ -36,7 +36,7 @@ public class Classe implements Serializable {
     private Double valor;
 
     @Column(name = "PRAZO_DEVOLUCAO")
-    private LocalDate prazoDevolucao;
+    private Long prazoDevolucao;
 
     @Override
     public boolean equals(Object o) {

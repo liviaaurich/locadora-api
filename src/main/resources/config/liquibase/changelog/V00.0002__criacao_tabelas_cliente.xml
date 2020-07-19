@@ -99,6 +99,10 @@
                 <constraints nullable="true"/>
             </column>
 
+            <column name="MULTA" type="NUMBER(5, 2)" remarks="Muta cobrada pelo atraso.">
+                <constraints nullable="true"/>
+            </column>
+
             <column name="VALOR_COBRADO" type="NUMBER(5, 2)" remarks="Valor cobrado">
                 <constraints nullable="false"/>
             </column>

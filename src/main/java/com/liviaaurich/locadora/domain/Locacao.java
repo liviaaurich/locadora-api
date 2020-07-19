@@ -43,8 +43,8 @@ public class Locacao implements Serializable {
     @Column(name = "VALOR_COBRADO")
     private Double valorCobrado;
 
-//    @Column(name = "MULTA")
-//    private Double multaCobrada;
+    @Column(name = "MULTA")
+    private Double multaCobrada;
 
     @ManyToOne
     @JoinColumn(name = "ID_ITEM", nullable = false)

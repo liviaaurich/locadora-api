@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
@@ -50,7 +51,7 @@ public class ItemService implements BaseService<ItemDTO> {
         Item item = itemRepository.findById(id).orElseThrow(() ->
             new BadRequestAlertException(MSG_ITEM_INEXISTENTE, ENTITY_NAME, "id"));
 
-        if(!locacaoService.validarVinculoItem(item.getId())) {
+        if(locacaoService.validarVinculoItem(item.getId())) {
             throw new BadRequestAlertException("O Item selecionado está vinculado a uma Locação.", ENTITY_NAME, ITEM);
         }
 
@@ -60,6 +61,12 @@ public class ItemService implements BaseService<ItemDTO> {
     @Override
     public Page<ItemDTO> obterTodos(ItemDTO dto, Pageable pageable) {
         return itemRepository.findAll(pageable).map(itemMapper::toDto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<ItemDTO> obterPorId(Long id) {
+        return Optional.empty();
     }
 
     @Override
@@ -74,6 +81,6 @@ public class ItemService implements BaseService<ItemDTO> {
     }
 
     public boolean validarVinculoTitulo(Long id) {
-        return (itemRepository.findAllByTituloId(id).isEmpty());
+        return (itemRepository.existsByTituloId(id));
     }
 }

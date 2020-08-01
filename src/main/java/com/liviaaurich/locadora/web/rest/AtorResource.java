@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,6 +47,16 @@ public class AtorResource {
 
         return ResponseEntity.created(new URI(API_ATOR + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(APP_NAME, false, ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
+
+    @PutMapping
+    @Timed
+    public ResponseEntity<AtorDTO> atualizar(@Valid @RequestBody AtorDTO atorDTO) throws URISyntaxException {
+        AtorDTO result = atorService.salvar(atorDTO);
+
+        return ResponseEntity.created(new URI(API_ATOR + result.getId()))
+            .headers(HeaderUtil.createEntityUpdateAlert(APP_NAME, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 

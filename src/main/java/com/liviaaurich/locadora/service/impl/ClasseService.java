@@ -64,7 +64,7 @@ public class ClasseService implements BaseService<ClasseDTO> {
     @Override
     @Transactional(readOnly = true)
     public Optional<ClasseDTO> obterPorId(Long id) {
-        return Optional.empty();
+        return classeRepository.findById(id).map(classeMapper::toDto);
     }
 
     @Override

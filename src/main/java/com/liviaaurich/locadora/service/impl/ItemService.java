@@ -66,7 +66,7 @@ public class ItemService implements BaseService<ItemDTO> {
     @Override
     @Transactional(readOnly = true)
     public Optional<ItemDTO> obterPorId(Long id) {
-        return Optional.empty();
+        return itemRepository.findById(id).map(itemMapper::toDto);
     }
 
     @Override

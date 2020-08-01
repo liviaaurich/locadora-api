@@ -65,7 +65,7 @@ public class AtorService implements BaseService<AtorDTO> {
     @Override
     @Transactional(readOnly = true)
     public Optional<AtorDTO> obterPorId(Long id) {
-        return Optional.empty();
+        return atorRepository.findById(id).map(atorMapper::toDto);
     }
 
     @Override

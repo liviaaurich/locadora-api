@@ -63,7 +63,7 @@ public class DiretorService implements BaseService<DiretorDTO> {
     @Override
     @Transactional(readOnly = true)
     public Optional<DiretorDTO> obterPorId(Long id) {
-        return Optional.empty();
+        return diretorRepository.findById(id).map(diretorMapper::toDto);
     }
 
     @Override

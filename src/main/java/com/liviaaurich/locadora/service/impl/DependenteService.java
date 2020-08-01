@@ -40,10 +40,9 @@ public class DependenteService implements BaseService<DependenteDTO> {
     @Override
     public DependenteDTO salvar(DependenteDTO dependenteDTO) {
         Dependente dependente = dependenteMapper.toEntity(dependenteDTO);
-
-        verificarDependentesAtivos(dependenteDTO.getIdSocio());
-
+        
         if(dependente.getId() == null) {
+            verificarDependentesAtivos(dependenteDTO.getIdSocio());
             dependente.setStatus(true);
         }
 
@@ -71,7 +70,7 @@ public class DependenteService implements BaseService<DependenteDTO> {
     @Override
     @Transactional(readOnly = true)
     public Optional<DependenteDTO> obterPorId(Long id) {
-        return Optional.empty();
+        return dependenteRepository.findById(id).map(dependenteMapper::toDto);
     }
 
     @Override

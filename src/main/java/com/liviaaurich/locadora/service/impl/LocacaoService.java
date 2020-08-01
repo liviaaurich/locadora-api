@@ -88,7 +88,9 @@ public class LocacaoService implements BaseService<LocacaoDTO> {
         if(!locacoesBanco.isEmpty()) {
             Optional<Locacao> locacaoOptional = locacoesBanco.stream().max(Comparator.comparing(Locacao::getDtDevolucaoPrevista));
             locacaoOptional.ifPresent(loc -> {
-                throw new BadRequestAlertException("Item não disponível. Data provável de disponibilidade: " + obterDataFormatada(loc.getDtDevolucaoPrevista().plusDays(1L)), ENTITY_NAME, LOCACAO);
+                if(!loc.getId().equals(locacao.getId())) {
+                    throw new BadRequestAlertException("Item não disponível. Data provável de disponibilidade: " + obterDataFormatada(loc.getDtDevolucaoPrevista().plusDays(1L)), ENTITY_NAME, LOCACAO);
+                }
             });
         }
     }

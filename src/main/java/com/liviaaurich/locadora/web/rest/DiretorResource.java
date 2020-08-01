@@ -1,9 +1,12 @@
 package com.liviaaurich.locadora.web.rest;
 
 import com.liviaaurich.locadora.service.BaseService;
+import com.liviaaurich.locadora.service.dto.AtorDTO;
+import com.liviaaurich.locadora.service.dto.DependenteDTO;
 import com.liviaaurich.locadora.service.dto.DiretorDTO;
 import com.liviaaurich.locadora.service.dto.dropdown.DropdownDTO;
 import io.github.jhipster.web.util.HeaderUtil;
+import io.github.jhipster.web.util.ResponseUtil;
 import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +27,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/diretores")
@@ -47,11 +52,27 @@ public class DiretorResource {
             .body(result);
     }
 
+    @PutMapping
+    @Timed
+    public ResponseEntity<DiretorDTO> atualizar(@Valid @RequestBody DiretorDTO diretorDTO) throws URISyntaxException {
+        DiretorDTO result = diretorServico.salvar(diretorDTO);
+
+        return ResponseEntity.created(new URI(API_DIRETOR + result.getId()))
+            .headers(HeaderUtil.createEntityUpdateAlert(APP_NAME, false, ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
+
     @DeleteMapping("/{id}")
     @Timed
     public ResponseEntity excluir(@PathVariable Long id) {
         diretorServico.excluir(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(APP_NAME, false, ENTITY_NAME, id.toString())).build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DiretorDTO> obterPorId(@PathVariable Long id) {
+        Optional<DiretorDTO> result = diretorServico.obterPorId(id);
+        return ResponseUtil.wrapOrNotFound(result);
     }
 
     @GetMapping

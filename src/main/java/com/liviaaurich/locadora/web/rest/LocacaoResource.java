@@ -1,8 +1,8 @@
 package com.liviaaurich.locadora.web.rest;
 
 import com.liviaaurich.locadora.service.BaseService;
+import com.liviaaurich.locadora.service.dto.AtorDTO;
 import com.liviaaurich.locadora.service.dto.LocacaoDTO;
-import com.liviaaurich.locadora.service.impl.LocacaoService;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,9 +36,9 @@ public class LocacaoResource {
 
     private static final String API_LOCACAO = "/locacoes";
 
-    private static final String ENTITY_NAME = "locacao";
+    private static final String APP_NAME = "LocadoraPassaTempo";
 
-    private final LocacaoService locacaoService;
+    private static final String ENTITY_NAME = "locacao";
 
     private final BaseService<LocacaoDTO> baseService;
 
@@ -49,6 +50,16 @@ public class LocacaoResource {
 
         return ResponseEntity.created(new URI(API_LOCACAO + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(null, false, ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
+
+    @PutMapping
+    @Timed
+    public ResponseEntity<LocacaoDTO> atualizar(@Valid @RequestBody LocacaoDTO locacaoDTO) throws URISyntaxException {
+        LocacaoDTO result = baseService.salvar(locacaoDTO);
+
+        return ResponseEntity.created(new URI(API_LOCACAO + result.getId()))
+            .headers(HeaderUtil.createEntityUpdateAlert(APP_NAME, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 

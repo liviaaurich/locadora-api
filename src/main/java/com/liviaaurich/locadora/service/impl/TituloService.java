@@ -70,7 +70,7 @@ public class TituloService implements BaseService<TituloDTO> {
     @Override
     @Transactional(readOnly = true)
     public Optional<TituloDTO> obterPorId(Long id) {
-        return Optional.empty();
+        return tituloRepository.findById(id).map(tituloMapper::toDto);
     }
 
     @Override

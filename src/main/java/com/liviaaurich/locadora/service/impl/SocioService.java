@@ -52,7 +52,7 @@ public class SocioService implements BaseService<SocioDTO> {
     @Override
     @Transactional(readOnly = true)
     public Optional<SocioDTO> obterPorId(Long id) {
-        return Optional.empty();
+        return socioRepository.findById(id).map(socioMapper::toDto);
     }
 
     @Override

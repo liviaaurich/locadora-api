@@ -120,4 +120,12 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="00000000000012" author="livia.aurich">
+        <addColumn tableName="TB_LOCACAO">
+            <column name="STATUS" type="VARCHAR(40)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

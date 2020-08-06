@@ -34,7 +34,11 @@ public class LocacaoService implements BaseService<LocacaoDTO> {
     @Override
     public LocacaoDTO salvar(LocacaoDTO locacaoDTO) {
         Locacao locacao = locacaoMapper.toEntity(locacaoDTO);
-        locacao.setDtLocacao(LocalDateTime.now());
+
+        if(locacao.getId() == null) {
+            locacao.setDtLocacao(LocalDateTime.now());
+            locacao.setStatus("Em aberto");
+        }
 
         if(locacao.getSocio().getId() == null) {
             locacao.setSocio(null);

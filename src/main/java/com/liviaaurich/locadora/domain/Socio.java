@@ -36,6 +36,6 @@ public class Socio extends Cliente {
     @Column(name = "TELEFONE")
     private String telefone;
 
-    @OneToMany(mappedBy = "socio", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "socio", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Dependente> dependentes = new ArrayList<>();
 }

@@ -22,6 +22,7 @@ public class LocacaoDTO implements Serializable {
 
     private Double valorCobrado;
     private Double multaCobrada;
+    private String status;
 
     private Long idItem;
     private Long idSocio;

@@ -5,9 +5,11 @@ import com.liviaaurich.locadora.repository.CategoriaRepository;
 import com.liviaaurich.locadora.repository.TituloRepository;
 import com.liviaaurich.locadora.service.BaseService;
 import com.liviaaurich.locadora.service.dto.CategoriaDTO;
+import com.liviaaurich.locadora.service.dto.ConsultaDTO;
 import com.liviaaurich.locadora.service.dto.TituloDTO;
 import com.liviaaurich.locadora.service.dto.dropdown.DropdownDTO;
 import com.liviaaurich.locadora.service.mapper.CategoriaMapper;
+import com.liviaaurich.locadora.service.mapper.ConsultaTituloMapper;
 import com.liviaaurich.locadora.service.mapper.TituloMapper;
 import com.liviaaurich.locadora.service.mapper.dropdown.TituloDropdownMapper;
 import com.liviaaurich.locadora.web.rest.errors.BadRequestAlertException;
@@ -34,6 +36,7 @@ public class TituloService implements BaseService<TituloDTO> {
     private final TituloRepository tituloRepository;
     private final TituloMapper tituloMapper;
     private final TituloDropdownMapper tituloDropdownMapper;
+    private final ConsultaTituloMapper consultaTituloMapper;
 
     private final CategoriaMapper categoriaMapper;
     private final CategoriaRepository categoriaRepository;
@@ -65,6 +68,11 @@ public class TituloService implements BaseService<TituloDTO> {
     @Override
     public Page<TituloDTO> obterTodos(TituloDTO dto, Pageable pageable) {
         return tituloRepository.findAll(pageable).map(tituloMapper::toDto);
+    }
+
+    @Override
+    public Page<ConsultaDTO> obterTodosConsulta(Pageable pageable) {
+        return tituloRepository.findAll(pageable).map(consultaTituloMapper::toDto);
     }
 
     @Override

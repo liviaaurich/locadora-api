@@ -71,4 +71,8 @@ public class ClasseService implements BaseService<ClasseDTO> {
     public List<DropdownDTO> obterDropdown() {
         return classeRepository.findAll().stream().map(classeDropdownMapper::toDto).collect(Collectors.toList());
     }
+
+    public List<ClasseDTO> obterValorById(List<Long> ids) {
+        return classeMapper.toDto(classeRepository.findByIdIn(ids));
+    }
 }

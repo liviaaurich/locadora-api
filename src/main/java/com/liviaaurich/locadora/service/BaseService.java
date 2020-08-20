@@ -1,6 +1,7 @@
 package com.liviaaurich.locadora.service;
 
 import com.liviaaurich.locadora.service.dto.CategoriaDTO;
+import com.liviaaurich.locadora.service.dto.ConsultaDTO;
 import com.liviaaurich.locadora.service.dto.dropdown.DropdownDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +25,10 @@ public interface BaseService<T> {
     }
 
     default List<CategoriaDTO> obterCategorias(){
+        throw new NotImplementedException();
+    }
+
+    default Page<ConsultaDTO> obterTodosConsulta(Pageable pageable){
         throw new NotImplementedException();
     }
 }

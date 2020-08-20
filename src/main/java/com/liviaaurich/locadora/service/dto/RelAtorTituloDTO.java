@@ -10,6 +10,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 public class RelAtorTituloDTO {
 
     private Long idAtor;
+    private String nomeAtor;
     private Long idTitulo;
 
     @Override

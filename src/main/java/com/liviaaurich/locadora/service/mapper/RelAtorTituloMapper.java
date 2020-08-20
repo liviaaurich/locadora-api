@@ -18,5 +18,6 @@ public interface RelAtorTituloMapper extends EntityMapper<RelAtorTituloDTO, RelA
     @Override
     @Mapping(target = "idAtor", source = "ator.id")
     @Mapping(target = "idTitulo", source = "titulo.id")
+    @Mapping(target = "nomeAtor", source = "ator.nome")
     RelAtorTituloDTO toDto(RelAtorTitulo relAtorTitulo);
 }

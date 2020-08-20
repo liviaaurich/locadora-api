@@ -1,8 +1,8 @@
 package com.liviaaurich.locadora.web.rest;
 
 import com.liviaaurich.locadora.service.BaseService;
-import com.liviaaurich.locadora.service.dto.AtorDTO;
 import com.liviaaurich.locadora.service.dto.CategoriaDTO;
+import com.liviaaurich.locadora.service.dto.ConsultaDTO;
 import com.liviaaurich.locadora.service.dto.TituloDTO;
 import com.liviaaurich.locadora.service.dto.dropdown.DropdownDTO;
 import io.github.jhipster.web.util.HeaderUtil;
@@ -82,6 +82,15 @@ public class TituloResource {
     @Timed
     public ResponseEntity<Page<TituloDTO>> obterTodos(@ModelAttribute TituloDTO filtro, Pageable pageable) {
         Page<TituloDTO> page = baseService.obterTodos(filtro, pageable);
+
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(UriComponentsBuilder.newInstance(), page);
+        return new ResponseEntity<>(page, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/consulta/")
+    @Timed
+    public ResponseEntity<Page<ConsultaDTO>> obterTodosConsulta(Pageable pageable) {
+        Page<ConsultaDTO> page = baseService.obterTodosConsulta(pageable);
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(UriComponentsBuilder.newInstance(), page);
         return new ResponseEntity<>(page, headers, HttpStatus.OK);
